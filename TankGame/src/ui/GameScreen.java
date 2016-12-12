@@ -129,6 +129,7 @@ public class GameScreen extends StackPane{
 		}
 		
 		Platform.runLater(()->{
+			if (IRenderableHolder.getInstance().getEntities().isEmpty()) return;
 			if (player1.isDestroyed() && player2.isDestroyed()) {
 				GameManager.endGame("DRAW");
 			}

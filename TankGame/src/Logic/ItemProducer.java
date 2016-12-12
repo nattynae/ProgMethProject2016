@@ -19,13 +19,15 @@ public class ItemProducer extends Thread{
 	public void run(){
 		// TODO Auto-generated method stub
 		while(true) {
-			System.out.println("Produce Item");
-			Item item = buildItem();
-			if (item == null) continue;
-			IRenderableHolder.getInstance().addEntity(item);
-			Thread t = new ItemDestroyer(item);
-			ThreadsHolder.instance.addThread(t);
-			t.start();
+			for (int i=0; i<4; i++) {
+				System.out.println("Produce Item");
+				Item item = buildItem();
+				if (item == null) continue;
+				IRenderableHolder.getInstance().addEntity(item);
+				Thread t = new ItemDestroyer(item);
+				ThreadsHolder.instance.addThread(t);
+				t.start();
+			}
 			try{
 				sleep(10000);
 			}catch(InterruptedException e) {

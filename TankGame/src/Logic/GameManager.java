@@ -19,7 +19,9 @@ import Model.WeakObstacle;
 import Utility.GameUtility;
 import Utility.Geometry;
 import Utility.RandomUtility;
+import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DialogEvent;
 import javafx.scene.control.Alert.AlertType;
 
 public class GameManager {
@@ -180,8 +182,15 @@ public class GameManager {
 		}
 		ThreadsHolder.instance.getThreads().clear();
 		IRenderableHolder.getInstance().clear();
+		alert.setOnCloseRequest(new EventHandler<DialogEvent>() {
+			
+			@Override
+			public void handle(DialogEvent event) {
+				alert.close();
+				Main.instance.ChangeScene();
+			}
+		});
 		alert.showAndWait();
-		Main.instance.ChangeScene();
 	}
 	
 }
