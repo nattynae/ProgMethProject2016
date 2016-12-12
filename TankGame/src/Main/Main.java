@@ -98,7 +98,7 @@ public class Main extends Application{
 				// TODO Auto-generated method stub
 				startScreen.movementUpdate();
 				startScreen.paintComponents();
-				System.out.println("Start Screen is running");
+				//System.out.println("Start Screen is running");
 			}
 		};
 		startAnimation.start();
