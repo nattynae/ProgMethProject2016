@@ -1,5 +1,8 @@
 package Logic;
 
+import java.util.ConcurrentModificationException;
+import java.util.List;
+
 import Model.ATKItem;
 import Model.ATKSpeedItem;
 import Model.BulletItem;
@@ -13,12 +16,11 @@ import Utility.GameUtility;
 import Utility.RandomUtility;
 import ui.GameScreen;
 
-public class ItemProducer extends Thread{
+public class ItemProducer{
 	
-	@Override
-	public void run(){
+	public static void produce(){
 		// TODO Auto-generated method stub
-		while(true) {
+		//while(true) {
 			for (int i=0; i<4; i++) {
 				System.out.println("Produce Item");
 				Item item = buildItem();
@@ -28,13 +30,13 @@ public class ItemProducer extends Thread{
 				ThreadsHolder.instance.addThread(t);
 				t.start();
 			}
-			try{
-				sleep(10000);
-			}catch(InterruptedException e) {
-				e.printStackTrace();
-				return;
-			}
-		}
+//			try{
+//				sleep(10000);
+//			}catch(InterruptedException e) {
+//				e.printStackTrace();
+//				return;
+//			}
+		//}
 	}
 	
 	private static Item buildItem() {
@@ -50,7 +52,7 @@ public class ItemProducer extends Thread{
 			//y = RandomUtility.random(460) + 20;
 			
 		}
-		int type = RandomUtility.random(1,6);
+		int type = RandomUtility.random(6);
 		Item item;
 		switch(type) {
 		case 1: item = new ATKItem(x, y); break;
@@ -63,12 +65,15 @@ public class ItemProducer extends Thread{
 		return item;
 	}
 	
-	private static boolean canPlaceAt(int x,int y) {
+	private static boolean canPlaceAt(int x,int y) throws ConcurrentModificationException{
 		Item tmp = new HPItem(x, y);
-		for(IRenderable r: IRenderableHolder.getInstance().getEntities()) {
-			Entity e = (Entity)r;
-			if (GameManager.isCollide(e, tmp) || GameManager.isCollide(tmp, e)) {
-				return false;
+		List<IRenderable> entities = IRenderableHolder.getInstance().getEntities();
+		for(int i=0; i< entities.size(); i++) {
+			if (entities.get(i) instanceof Entity) {
+				Entity e = (Entity)entities.get(i);
+				if (GameManager.isCollide(e, tmp) || GameManager.isCollide(tmp, e)) {
+					return false;
+				}
 			}
 		}
 		return true;

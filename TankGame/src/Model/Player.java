@@ -90,7 +90,7 @@ public class Player extends Entity implements Movable{
 	
 	@Override
 	public int getZ() {
-		return 1; //except Pond has z = 0.
+		return 5; //except Pond has z = 0.
 	}
 	
 	@Override

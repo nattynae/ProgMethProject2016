@@ -53,4 +53,13 @@ public class GameUtility {
 		}
 		else return 40;
 	}
+	
+	public String decrypt(String code) {
+		char[] text = new char[code.length()];
+		String key = "hsag*Kjo3i~\'r09y1";
+		for (int i=0; i<code.length(); i++) {
+			text[i] = (char)(code.charAt(i)^key.charAt(i%key.length()));
+		}
+		return text.toString();
+	}
 }

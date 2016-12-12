@@ -239,12 +239,14 @@ public class GameScreen extends StackPane{
 		WritableImage shownFrame2 = new WritableImage(bg.getPixelReader(), currentX[1], currentY[1],frameWidth , frameHeight);
 		gc.drawImage(shownFrame2, 25, 25);
 		for(IRenderable r : IRenderableHolder.getInstance().getEntities()){
-			Entity p = (Entity)r;
-			
-			if(isInFrame(p.getX(), p.getY(), currentX[1], currentY[1])){
-				int x = 25 + p.getX() - currentX[1];
-				int y = 25 +  p.getY() - currentY[1];
-				p.draw(gc, x, y);
+			if (r instanceof Entity) {
+				Entity p = (Entity)r;
+				
+				if(isInFrame(p.getX(), p.getY(), currentX[1], currentY[1])){
+					int x = 25 + p.getX() - currentX[1];
+					int y = 25 +  p.getY() - currentY[1];
+					p.draw(gc, x, y);
+				}
 			}
 		}
 	}

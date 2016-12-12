@@ -1,5 +1,6 @@
 package Main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Logic.GameManager;
@@ -36,6 +37,7 @@ public class Main extends Application{
 	private StartScreen startScreen;
 	private GameScreen gameScreen ;
 	public AnimationTimer animation, startAnimation;
+	private static long tm = 0;
 	
 	private boolean isGameSceneShown = false;
 	
@@ -80,6 +82,10 @@ public class Main extends Application{
 						threads.remove(i);
 					}
 				}
+				tm++;
+				if(tm%500==0) {
+					ItemProducer.produce();
+				}
 			}
 		};
 		
@@ -91,7 +97,6 @@ public class Main extends Application{
 				startScreen.movementUpdate();
 				startScreen.paintComponents();
 				System.out.println("Start Screen is running");
-
 			}
 		};
 		startAnimation.start();
@@ -129,9 +134,9 @@ public class Main extends Application{
 		else{
 			this.primaryStage.setScene(gameScene);
 			animation.start();
-			ItemProducer ip = new ItemProducer();
-			ThreadsHolder.instance.addThread(ip);
-			ip.start();
+			//ItemProducer ip = new ItemProducer();
+			//ThreadsHolder.instance.addThread(ip);
+			//ip.start();
 			System.out.println("To Game Screen");
 		}
 		this.isGameSceneShown = !this.isGameSceneShown;

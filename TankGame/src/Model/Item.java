@@ -16,7 +16,7 @@ public abstract class Item extends Entity implements BulletPassable{
 	
 	@Override
 	public int getZ() {
-		return 0;
+		return 1;
 	}
 	
 	@Override

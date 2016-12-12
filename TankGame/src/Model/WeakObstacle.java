@@ -25,7 +25,7 @@ public class WeakObstacle extends Entity implements Obstacle{
 	
 	@Override
 	public int getZ() {
-		return 1;
+		return 2;
 	}
 	
 }

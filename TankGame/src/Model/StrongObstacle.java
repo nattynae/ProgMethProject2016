@@ -16,7 +16,7 @@ public class StrongObstacle extends Entity implements Obstacle{
 	
 	@Override
 	public int getZ() {
-		return 1; //except Pond has z = 0.
+		return 3; //except Pond has z = 0.
 	}
 	
 	@Override

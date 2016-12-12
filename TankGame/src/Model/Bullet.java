@@ -37,7 +37,7 @@ public class Bullet extends Entity implements Movable{
 	
 	@Override
 	public int getZ() {
-		return 2;
+		return 4;
 	}
 	
 	@Override

@@ -223,7 +223,7 @@ StrongObstacle 580 460
 WeakObstacle 660 460
 WeakObstacle 700 460
 StrongObstacle 740 460
-StrongObstacle 980 460
+WeakObstacle 980 460
 StrongObstacle 1140 460
 Pond 1220 460
 Pond 1260 460
@@ -255,7 +255,7 @@ StrongObstacle 780 500
 StrongObstacle 820 500
 StrongObstacle 860 500
 StrongObstacle 900 500
-StrongObstacle 940 500
+WeakObstacle 940 500
 WeakObstacle 980 500
 WeakObstacle 1020 500
 WeakObstacle 1060 500
