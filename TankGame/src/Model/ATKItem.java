@@ -1,5 +1,6 @@
 package Model;
 
+import Utility.SoundUtility;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -25,5 +26,6 @@ public class ATKItem extends Item{
 	public void collect(Player player) {
 		player.increaseATK(1);
 		hp = 0;
+		SoundUtility.playSound("collect");
 	}
 }

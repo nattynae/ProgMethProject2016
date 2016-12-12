@@ -7,6 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+import com.sun.javafx.tk.FontLoader;
+import com.sun.javafx.tk.Toolkit;
+
 import Logic.GameManager;
 import Main.Main;
 import Model.ATKItem;
@@ -56,7 +59,7 @@ public class GameScreen extends StackPane{
 		this.setPrefSize(GameUtility.GAMESCREEN_WIDTH, GameUtility.GAMESCREEN_HEIGHT);
 		
 		// use background from IRenderableHolder
-		this.bg = IRenderableHolder.bg;
+		this.bg = IRenderableHolder.gameBG;
 		// create canvas
 		this.canvas = new Canvas(GameUtility.GAMESCREEN_WIDTH, GameUtility.GAMESCREEN_HEIGHT);
 		canvas.setVisible(true);			
@@ -202,8 +205,8 @@ public class GameScreen extends StackPane{
 	public void frameUpdate(Player player,int frameNuber){
 		int newX = currentX[frameNuber];
 		int newY = currentY[frameNuber];
-		newX = player.getX() - 250;
-		newY = player.getY() - 250;
+		newX = player.getX() - frameWidth/2;
+		newY = player.getY() - frameHeight/2;
 		if(newX >= 0 && newX + frameWidth <= maxWidth){
 			currentX[frameNuber] = newX;
 		}
@@ -219,16 +222,17 @@ public class GameScreen extends StackPane{
 		paintFrame2(gc);
 		paintUI(gc);
 		paintStatus(gc);
+		paintTime(gc);
 	}
 	
 	private void paintFrame1(GraphicsContext gc){ //draw frame1 the right frame
 		WritableImage shownFrame1 = new WritableImage(bg.getPixelReader(), currentX[0], currentY[0],frameWidth , frameHeight);
-		gc.drawImage(shownFrame1, 550, 25);
+		gc.drawImage(shownFrame1, 555, 25);
 		for(IRenderable r : IRenderableHolder.getInstance().getEntities()){
 			Entity p = (Entity)r;
 			
 			if(isInFrame(p.getX(), p.getY(), currentX[0], currentY[0])){
-				int x = 550 + p.getX() - currentX[0];
+				int x = 555 + p.getX() - currentX[0];
 				int y = 25 +  p.getY() - currentY[0];
 				p.draw(gc, x, y);
 			}
@@ -237,16 +241,14 @@ public class GameScreen extends StackPane{
 	
 	private void paintFrame2(GraphicsContext gc){//draw frame2 the left frame
 		WritableImage shownFrame2 = new WritableImage(bg.getPixelReader(), currentX[1], currentY[1],frameWidth , frameHeight);
-		gc.drawImage(shownFrame2, 25, 25);
+		gc.drawImage(shownFrame2, 20, 25);
 		for(IRenderable r : IRenderableHolder.getInstance().getEntities()){
-			if (r instanceof Entity) {
-				Entity p = (Entity)r;
-				
-				if(isInFrame(p.getX(), p.getY(), currentX[1], currentY[1])){
-					int x = 25 + p.getX() - currentX[1];
-					int y = 25 +  p.getY() - currentY[1];
-					p.draw(gc, x, y);
-				}
+			Entity p = (Entity)r;
+			
+			if(isInFrame(p.getX(), p.getY(), currentX[1], currentY[1])){
+				int x = 20 + p.getX() - currentX[1];
+				int y = 25 +  p.getY() - currentY[1];
+				p.draw(gc, x, y);
 			}
 		}
 	}
@@ -254,37 +256,97 @@ public class GameScreen extends StackPane{
 	private void paintUI(GraphicsContext gc){
 		gc.setFill(Color.CHARTREUSE);
 		gc.fillRect(0, 0, 1075, 25);
-		gc.fillRect(0, 25, 25, 500);
-		gc.fillRect(525, 25, 25, 500);
-		gc.fillRect(1050, 25, 25, 500);
+		gc.fillRect(0, 25, 20, 500);
+		gc.fillRect(520, 25, 35, 500);
+		gc.fillRect(1055, 25, 20, 500);
 		gc.fillRect(0, 525, 1075, 125);
 	}
 	
 	private void paintStatus(GraphicsContext gc){
+		// paint white frame
 		gc.setGlobalAlpha(0.7);
 		gc.setFill(Color.WHITE);
 		gc.fillRoundRect(25, 530, 500, 115 , 10, 10);
 		gc.fillRoundRect(550, 530, 500, 115 , 10, 10);
+		gc.setGlobalAlpha(1);
+		
+		// paint name
 		Font font = Font.font("Times New Roman", FontWeight.LIGHT, 20);
 		gc.setFont(font);
 		gc.setFill(Color.BLACK);
 		gc.fillText(player2.getName(), 30, 550);
 		gc.fillText(player1.getName(), 555, 550);
+		
+		//paint status
 		Font little_font = Font.font("Times New Roman", FontWeight.LIGHT, 15);
 		gc.setFont(little_font);
-		gc.fillText("HP: "+player2.getHP()+"/20", 30, 580);
-		gc.fillText("Speed: "+player2.getSpeed()+"/8", 30, 600);
-		gc.fillText("ATK: "+player2.getATK()+"/5", 30, 620);
-		gc.fillText("ATKSpeed: "+player2.getATKSpeed()+"/13", 280, 580);
-		gc.fillText("Bullet: "+player2.getBullets()+"/5", 280, 600);
+		FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
+		double font_height = fontLoader.getFontMetrics(gc.getFont()).getLineHeight();
 		
-		gc.fillText("HP: "+player1.getHP()+"/20", 555, 580);
-		gc.fillText("Speed: "+player1.getSpeed()+"/8", 555, 600);
-		gc.fillText("ATK: "+player1.getATK()+"/5", 555, 620);
-		gc.fillText("ATKSpeed: "+player1.getATKSpeed()+"/13", 805, 580);
-		gc.fillText("Bullet: "+player1.getBullets()+"/5", 805, 600);
-		gc.setGlobalAlpha(1);
+		
+		// paint status bar
+		
+		gc.setStroke(Color.BLACK);
+		gc.setFill(Color.CHARTREUSE);
+		gc.fillRoundRect(80, 570-font_height+3, player2.getHP()*7, font_height, 10, 10);
+		gc.strokeRoundRect(80, 570-font_height+3, 140, font_height, 10, 10);
+		gc.fillRoundRect(605, 570-font_height+3, player1.getHP()*7, font_height, 10, 10);
+		gc.strokeRoundRect(605, 570-font_height+3, 140, font_height, 10, 10);
+		
+		gc.setFill(Color.YELLOW);
+		gc.fillRoundRect(80, 595-font_height+3, player2.getSpeed()*140/8, font_height, 10, 10);
+		gc.strokeRoundRect(80, 595-font_height+3, 140, font_height, 10, 10);
+		gc.fillRoundRect(605, 595-font_height+3, player1.getSpeed()*140/8, font_height, 10, 10);
+		gc.strokeRoundRect(605, 595-font_height+3, 140, font_height, 10, 10);
+		
+		gc.setFill(Color.RED);
+		gc.fillRoundRect(80, 620-font_height+3, player2.getATK()*140/5, font_height, 10, 10);
+		gc.strokeRoundRect(80, 620-font_height+3, 140, font_height, 10, 10);
+		gc.fillRoundRect(605, 620-font_height+3, player1.getATK()*140/5, font_height, 10, 10);
+		gc.strokeRoundRect(605, 620-font_height+3, 140, font_height, 10, 10);
+		
+		gc.setFill(Color.ORANGE);
+		gc.fillRoundRect(305, 570-font_height+3, player2.getATKSpeed()*140/13, font_height, 10, 10);
+		gc.strokeRoundRect(305, 570-font_height+3, 140, font_height, 10, 10);
+		gc.fillRoundRect(830, 570-font_height+3, player1.getATKSpeed()*140/13, font_height, 10, 10);
+		gc.strokeRoundRect(830, 570-font_height+3, 140, font_height, 10, 10);
+		
+		gc.setFill(Color.GREEN);
+		gc.fillRoundRect(305, 595-font_height+3, player2.getBullets()*140/5, font_height, 10, 10);
+		gc.strokeRoundRect(305, 595-font_height+3, 140, font_height, 10, 10);
+		gc.fillRoundRect(830, 595-font_height+3, player1.getBullets()*140/5, font_height, 10, 10);
+		gc.strokeRoundRect(830, 595-font_height+3, 140, font_height, 10, 10);
+		
+		// paint status font
+		gc.setFill(Color.BLACK);
+		gc.fillText("HP: "+player2.getHP()+"/20", 125, 570);
+		gc.fillText("Speed: "+player2.getSpeed()+"/8", 125, 595);
+		gc.fillText("ATK: "+player2.getATK()+"/5", 125, 620);
+		gc.fillText("ATKSpeed: "+player2.getATKSpeed()+"/13", 325, 570);
+		gc.fillText("Bullet: "+player2.getBullets()+"/5", 325, 595);
+		
+		gc.fillText("HP: "+player1.getHP()+"/20", 650, 570);
+		gc.fillText("Speed: "+player1.getSpeed()+"/8", 650, 595);
+		gc.fillText("ATK: "+player1.getATK()+"/5", 650, 620);
+		gc.fillText("ATKSpeed: "+player1.getATKSpeed()+"/13", 850, 570);
+		gc.fillText("Bullet: "+player1.getBullets()+"/5", 850, 595);
 	}
+	
+	public void paintTime(GraphicsContext gc){
+		Font font = Font.font("Times New Roman", FontWeight.LIGHT, 20);
+		gc.setFont(font);
+		
+		FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
+		double font_width = fontLoader.computeStringWidth(Main.instance.timeCounter.getTime()+"", font);
+		double font_height = fontLoader.getFontMetrics(gc.getFont()).getLineHeight();
+		gc.setFill(Color.WHITE);
+		gc.fillRoundRect(GameUtility.GAMESCREEN_WIDTH/2 - font_width/2-1, 5, font_width+2, font_height-3,
+				5, 5);
+		gc.setFill(Color.BLACK);
+		gc.fillText(Main.instance.timeCounter.getTime()+"", GameUtility.GAMESCREEN_WIDTH/2 - font_width/2, font_height);
+	}
+	
+	
 	
 	public void findPlayer(){ //use to find player and capture in the frame
 		int i = 0;
@@ -312,8 +374,8 @@ public class GameScreen extends StackPane{
 	}
 	
 	public boolean isInFrame(int x, int y, int currentX, int currentY){
-		if(x - currentX + 20 < 0 || x - currentX - 20 > frameWidth) return false;
-		else if(y - currentY +20 < 0 || y - currentY -20 > frameHeight) return false;
+		if(x - currentX + 12 < 0 || x - currentX - 12 > frameWidth) return false;
+		else if(y - currentY + 12 < 0 || y - currentY - 12 > frameHeight) return false;
 		return true;
 	}
 

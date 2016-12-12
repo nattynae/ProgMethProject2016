@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import Main.Main;
 import Model.IRenderableHolder;
@@ -121,7 +123,7 @@ public class StartScreen extends StackPane{
 		BufferedReader br;
 		try{
 			//System.out.println(ClassLoader.getSystemResource("gamemap.txt").toString());
-			br = new BufferedReader(new FileReader("gamemap.txt"));
+			br = new BufferedReader(new FileReader(ClassLoader.getSystemResource("gamemap.txt").getFile()));
 		}catch(FileNotFoundException e) {
 			System.out.println("File Not Found");
 			e.printStackTrace();

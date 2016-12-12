@@ -1,6 +1,7 @@
 package Model;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class StrongObstacle extends Entity implements Obstacle{
@@ -21,11 +22,8 @@ public class StrongObstacle extends Entity implements Obstacle{
 	
 	@Override
 	public void draw(GraphicsContext gc, int x, int y ) {
-		gc.setFill(Color.GRAY);
-		gc.fillRect(x - WIDTH/2 , y - HEIGHT/2, WIDTH, HEIGHT);
-		gc.setStroke(Color.BLACK);
-		gc.setLineWidth(1);
-		gc.strokeRect(x - WIDTH/2 , y - HEIGHT/2, WIDTH, HEIGHT);
+		Image image = IRenderableHolder.rockIcon;
+		gc.drawImage(image, x-WIDTH/2, y-HEIGHT/2);
 	}
 	
 	@Override

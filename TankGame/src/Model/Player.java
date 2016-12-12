@@ -84,7 +84,7 @@ public class Player extends Entity implements Movable{
 		gc.setFont(font);
 		FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
 		double font_width = fontLoader.computeStringWidth(name, gc.getFont());
-		gc.setFill(Color.YELLOW);
+		gc.setFill(Color.BLACK);
 		gc.fillText(name, x - font_width/2, y + WIDTH);
 	}
 	
