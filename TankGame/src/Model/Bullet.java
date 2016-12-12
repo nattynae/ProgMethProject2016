@@ -5,7 +5,7 @@ import Utility.SoundUtility;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Bullet extends Entity implements Movable{
+public class Bullet extends Entity implements Movable, BulletPassable{
 	public final static int WIDTH = 10;
 	public final static int HEIGHT = 10;
 	private Player owner;

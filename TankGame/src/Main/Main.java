@@ -6,6 +6,7 @@ import java.util.List;
 import Logic.GameManager;
 import Logic.ItemProducer;
 import Logic.ThreadsHolder;
+import Logic.TimeCounter;
 import Utility.GameUtility;
 import Utility.RandomUtility;
 import javafx.animation.AnimationTimer;
@@ -40,6 +41,7 @@ public class Main extends Application{
 	private static long tm = 0;
 	
 	private boolean isGameSceneShown = false;
+	private TimeCounter timeCounter;
 	
 	public static void main(String args[]) {
 		launch(args);
@@ -134,9 +136,9 @@ public class Main extends Application{
 		else{
 			this.primaryStage.setScene(gameScene);
 			animation.start();
-			//ItemProducer ip = new ItemProducer();
-			//ThreadsHolder.instance.addThread(ip);
-			//ip.start();
+			Thread t = new Thread(new TimeCounter());
+			ThreadsHolder.instance.getThreads().add(t);
+			t.start();
 			System.out.println("To Game Screen");
 		}
 		this.isGameSceneShown = !this.isGameSceneShown;
