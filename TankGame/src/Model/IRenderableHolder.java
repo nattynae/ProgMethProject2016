@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javafx.scene.image.Image;
-import javafx.scene.media.AudioClip;
-
 public class IRenderableHolder {
 
 	private static final IRenderableHolder instance = new IRenderableHolder();

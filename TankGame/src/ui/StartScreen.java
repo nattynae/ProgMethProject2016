@@ -1,11 +1,13 @@
 package ui;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 
 import Main.Main;
 import Model.IRenderableHolder;
@@ -111,21 +113,22 @@ public class StartScreen extends StackPane{
 		}
 		Main.instance.startAnimation.stop();
 		// create the map here
-		for(int y = -20; y <= GameScreen.maxHeight + 20; y += 40){ // create boundary
-			if(y == -20 || y == GameScreen.maxHeight +20){
-				for(int x = 20; x <= GameScreen.maxWidth - 20; x += 40){
+		for(int y = -20; y <= GameUtility.BOARD_HEIGHT + 20; y += 40){ // create boundary
+			if(y == -20 || y == GameUtility.BOARD_HEIGHT +20){
+				for(int x = 20; x <= GameUtility.BOARD_WIDTH - 20; x += 40){
 					IRenderableHolder.getInstance().addEntity(new StrongObstacle(x,y));
 				}
 			}else{
 				IRenderableHolder.getInstance().addEntity(new StrongObstacle(-20,y));
-				IRenderableHolder.getInstance().addEntity(new StrongObstacle(GameScreen.maxWidth +20,y));
+				IRenderableHolder.getInstance().addEntity(new StrongObstacle(GameUtility.BOARD_WIDTH +20,y));
 			}
 		}
 		BufferedReader br;
 		try{
 			//System.out.println(ClassLoader.getSystemResource("gamemap.txt").toString());
-			br = new BufferedReader(new FileReader(ClassLoader.getSystemResource("gamemap.txt").getFile()));
-		}catch(FileNotFoundException e) {
+			File file = new File(ClassLoader.getSystemResource("gamemap.txt").toURI());
+			br = new BufferedReader(new FileReader(file));
+		}catch(FileNotFoundException | URISyntaxException e) {
 			System.out.println("File Not Found");
 			e.printStackTrace();
 			return;

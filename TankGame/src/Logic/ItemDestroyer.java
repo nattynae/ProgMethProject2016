@@ -2,7 +2,7 @@ package Logic;
 
 import Model.Item;
 
-public class ItemDestroyer extends Thread{
+public class ItemDestroyer implements Runnable{
 	
 	private Item item;
 	
@@ -14,7 +14,7 @@ public class ItemDestroyer extends Thread{
 	public void run() {
 		// TODO Auto-generated method stub
 		try{
-			sleep(50000);
+			Thread.sleep(50000);
 		}catch(InterruptedException e) {
 			e.printStackTrace();
 			return;

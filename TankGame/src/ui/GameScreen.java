@@ -46,10 +46,8 @@ public class GameScreen extends StackPane{
 	private Canvas canvas;
 	private Image bg;
 	private Player player1, player2;
-	private static int frameWidth = 500;
-	private static int frameHeight = 500;
-	public static int maxWidth = 1920 ; 
-	public static int maxHeight = 1160;
+	private static final int frameWidth = 500;
+	private static final int frameHeight = 500;
 	private int[] currentX, currentY , speed;
 	
 	public GameScreen(){
@@ -206,12 +204,12 @@ public class GameScreen extends StackPane{
 	public void frameUpdate(Player player,int frameNuber){
 		int newX = currentX[frameNuber];
 		int newY = currentY[frameNuber];
-		newX = player.getX() - frameWidth/2;
-		newY = player.getY() - frameHeight/2;
-		if(newX >= 0 && newX + frameWidth <= maxWidth){
+		newX = player.getX() - GameUtility.BOARD_WIDTH/2;
+		newY = player.getY() - GameUtility.BOARD_HEIGHT/2;
+		if(newX >= 0 && newX + GameUtility.FRAME_WIDTH <= GameUtility.BOARD_WIDTH){
 			currentX[frameNuber] = newX;
 		}
-		if(newY >= 0 && newY + frameHeight <= maxHeight){
+		if(newY >= 0 && newY + GameUtility.FRAME_HEIGHT <= GameUtility.BOARD_HEIGHT){
 			currentY[frameNuber] = newY;
 		}
 	}
@@ -223,7 +221,6 @@ public class GameScreen extends StackPane{
 		paintFrame2(gc);
 		paintUI(gc);
 		paintStatus(gc);
-		paintTime(gc);
 	}
 	
 	private void paintFrame1(GraphicsContext gc){ //draw frame1 the right frame
@@ -331,23 +328,7 @@ public class GameScreen extends StackPane{
 		gc.fillText("ATK: "+player1.getATK()+"/5", 650, 620);
 		gc.fillText("ATKSpeed: "+player1.getATKSpeed()+"/13", 850, 570);
 		gc.fillText("Bullet: "+player1.getBullets()+"/5", 850, 595);
-	}
-	
-	public void paintTime(GraphicsContext gc){
-		Font font = Font.font("Times New Roman", FontWeight.LIGHT, 20);
-		gc.setFont(font);
-		
-		FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
-		double font_width = fontLoader.computeStringWidth(Main.instance.timeCounter.getTime()+"", font);
-		double font_height = fontLoader.getFontMetrics(gc.getFont()).getLineHeight();
-		gc.setFill(Color.WHITE);
-		gc.fillRoundRect(GameUtility.GAMESCREEN_WIDTH/2 - font_width/2-1, 5, font_width+2, font_height-3,
-				5, 5);
-		gc.setFill(Color.BLACK);
-		gc.fillText(Main.instance.timeCounter.getTime()+"", GameUtility.GAMESCREEN_WIDTH/2 - font_width/2, font_height);
-	}
-	
-	
+	}	
 	
 	public void findPlayer(){ //use to find player and capture in the frame
 		int i = 0;
@@ -360,9 +341,9 @@ public class GameScreen extends StackPane{
 				speed[i] = p.getSpeed();
 				
 				if(currentX[i] < 0) currentX[i] = 0;
-				else if(currentX[i] + frameWidth > maxWidth) currentX[i] = maxWidth - frameWidth;
+				else if(currentX[i] + GameUtility.FRAME_WIDTH > GameUtility.BOARD_WIDTH) currentX[i] = GameUtility.BOARD_WIDTH - GameUtility.FRAME_WIDTH;
 				if(currentY[i] < 0) currentY[i] = 0;
-				else if(currentY[i] + frameHeight > maxHeight ) currentY[i] = maxHeight - frameHeight;
+				else if(currentY[i] + GameUtility.FRAME_HEIGHT > GameUtility.BOARD_HEIGHT ) currentY[i] = GameUtility.BOARD_HEIGHT - GameUtility.FRAME_HEIGHT;
 				
 				if(i == 0){
 					player1 = p;
@@ -380,7 +361,4 @@ public class GameScreen extends StackPane{
 		return true;
 	}
 
-	
-	
-	
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import Logic.GameManager;
 import Logic.ItemProducer;
 import Logic.ThreadsHolder;
-import Logic.TimeCounter;
 import Utility.GameUtility;
 import Utility.ImageUtility;
 import Utility.InputUtility;
@@ -43,7 +42,6 @@ public class Main extends Application{
 	public AnimationTimer animation, startAnimation;
 	
 	private boolean isGameSceneShown = false;
-	public TimeCounter timeCounter;
 	
 	public static void main(String args[]) {
 		launch(args);
@@ -75,22 +73,16 @@ public class Main extends Application{
 		});
 		
 		animation = new AnimationTimer() {
-			//private int tm = 0;
 			@Override
 			public void handle(long now) {
-				// TODO Auto-generated method stub
 				gameScreen.update();
 				gameScreen.paintComponenet();
-				List<Thread> threads = ThreadsHolder.instance.getThreads();
+				List<Thread> threads = ThreadsHolder.getInstance().getThreads();
 				for (int i=threads.size()-1; i>=0; i--) {
 					if (!threads.get(i).isAlive()) {
 						threads.remove(i);
 					}
 				}
-//				tm++;
-//				if(tm%500==0) {
-//					ItemProducer.produce();
-//				}
 			}
 		};
 		
@@ -111,10 +103,7 @@ public class Main extends Application{
 			@Override
 			public void handle(WindowEvent event) {
 				// TODO Auto-generated method stub
-				for (Thread t: ThreadsHolder.instance.getThreads()) {
-					t.interrupt();
-				}
-				ThreadsHolder.instance.getThreads().clear();
+				ThreadsHolder.getInstance().clear();
 				startAnimation.stop();
 				animation.stop();
 			}
@@ -144,10 +133,6 @@ public class Main extends Application{
 		else{
 			this.primaryStage.setScene(gameScene);
 			animation.start();
-			timeCounter = new TimeCounter();
-			Thread t = new Thread(new ItemProducer());
-			ThreadsHolder.instance.getThreads().add(t);
-			t.start();
 			System.out.println("To Game Screen");
 		}
 		this.isGameSceneShown = !this.isGameSceneShown;
