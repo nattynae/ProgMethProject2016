@@ -32,9 +32,9 @@ public class GameScreen extends StackPane {
 	private Player player1, player2;
 	private static int frameWidth = GameUtility.FRAME_WIDTH;
 	private static int frameHeight = GameUtility.FRAME_HEIGHT;
-	private static int maxWidth = GameUtility.BOARD_WIDTH;
-	private static int maxHeight = GameUtility.BOARD_HEIGHT;
-	private int[] currentX, currentY, speed;
+	public static int maxWidth = GameUtility.BOARD_WIDTH;
+	public static int maxHeight = GameUtility.BOARD_HEIGHT;
+	private int[] currentX, currentY, speed; // for rendering each frame
 
 	public GameScreen() {
 		super();
@@ -55,8 +55,8 @@ public class GameScreen extends StackPane {
 	}
 
 	public void update() {
-		frameUpdate(player1, 0);
-		frameUpdate(player2, 1);
+		updateFrame(player1, 0);
+		updateFrame(player2, 1);
 
 		updatePlayerFromInput();
 		updateEntities();
@@ -107,11 +107,14 @@ public class GameScreen extends StackPane {
 
 	private void updateEntities() {
 		List<IRenderable> entities = IRenderableHolder.getInstance().getEntities();
+		// Move all bullets. Don't care isDestroyed here.
 		for (int i = entities.size() - 1; i >= 0; i--) {
 			if (entities.get(i) instanceof Bullet) {
 				((Bullet) entities.get(i)).move();
 			}
 		}
+
+		// check all collisions and remove destroyed one from the list
 		GameManager.checkCollision();
 		for (int i = entities.size() - 1; i >= 0; i--) {
 			if (entities.get(i).isDestroyed()) {
@@ -122,8 +125,11 @@ public class GameScreen extends StackPane {
 
 	private void checkGameEnd() {
 		Platform.runLater(() -> {
+			// check screen status (when list is empty means it is start screen now)
 			if (IRenderableHolder.getInstance().getEntities().isEmpty())
 				return;
+			
+			// end game and announce the winner
 			if (player1.isDestroyed() && player2.isDestroyed()) {
 				GameManager.endGame("DRAW");
 			} else if (player1.isDestroyed()) {
@@ -135,7 +141,6 @@ public class GameScreen extends StackPane {
 	}
 
 	public void keyPressed(KeyCode code) {
-		// TODO Auto-generated method stub
 		if (code.toString().equals("UP")) {
 			InputUtility.setKeyUp1(true);
 		} else if (code.toString().equals("DOWN")) {
@@ -191,7 +196,7 @@ public class GameScreen extends StackPane {
 		}
 	}
 
-	public void frameUpdate(Player player, int frameNuber) {
+	public void updateFrame(Player player, int frameNuber) {
 		int newX = currentX[frameNuber];
 		int newY = currentY[frameNuber];
 		newX = player.getX() - frameWidth / 2;
@@ -213,8 +218,8 @@ public class GameScreen extends StackPane {
 		paintStatus(gc);
 	}
 
-	private void paintFrame1(GraphicsContext gc) { // draw frame1 the right
-													// frame
+	// draw frame1 the right frame
+	private void paintFrame1(GraphicsContext gc) {
 		WritableImage shownFrame1 = new WritableImage(bg.getPixelReader(), currentX[0], currentY[0], frameWidth,
 				frameHeight);
 		gc.drawImage(shownFrame1, 555, 25);
@@ -229,7 +234,8 @@ public class GameScreen extends StackPane {
 		}
 	}
 
-	private void paintFrame2(GraphicsContext gc) {// draw frame2 the left frame
+	// draw frame2 the left frame
+	private void paintFrame2(GraphicsContext gc) {
 		WritableImage shownFrame2 = new WritableImage(bg.getPixelReader(), currentX[1], currentY[1], frameWidth,
 				frameHeight);
 		gc.drawImage(shownFrame2, 20, 25);
@@ -275,7 +281,6 @@ public class GameScreen extends StackPane {
 		double font_height = fontLoader.getFontMetrics(gc.getFont()).getLineHeight();
 
 		// paint status bar
-
 		gc.setStroke(Color.BLACK);
 		gc.setFill(Color.CHARTREUSE);
 		gc.fillRoundRect(80, 570 - font_height + 3, player2.getHP() * 7, font_height, 10, 10);
@@ -325,7 +330,6 @@ public class GameScreen extends StackPane {
 	public void findPlayer() { // use to find player and capture in the frame
 		int i = 0;
 		for (IRenderable r : IRenderableHolder.getInstance().getEntities()) {
-
 			if (r instanceof Player) {
 				Player p = (Player) r;
 				currentX[i] = p.getX() - frameWidth / 2;
