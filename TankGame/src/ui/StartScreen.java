@@ -4,11 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import Main.Main;
 import Model.IRenderableHolder;
+import Model.Obstacle;
 import Model.Player;
 import Model.Pond;
 import Model.StrongObstacle;
@@ -34,8 +33,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class StartScreen extends StackPane{
-	private Button startButton, body1, body2 ,body3 ,body4 , gun1, gun2, gun3, gun4;
+public class StartScreen extends StackPane {
+	private Button startButton, body1, body2, body3, body4, gun1, gun2, gun3, gun4;
 	private Canvas canvas;
 	private Image bg;
 	private int currentX;
@@ -43,180 +42,191 @@ public class StartScreen extends StackPane{
 	private static String style = "-fx-text-fill: white; -fx-font: bold 20pt \"Time News Roman\";";
 	private TextField player1TextField, player2TextField;
 	private GameScreen gameScreen;
-	
-	public StartScreen(GameScreen gameScreen){
+
+	public StartScreen(GameScreen gameScreen) {
 		super();
 		this.setVisible(true);
 		initializeGUI();
 		addListener();
 		this.gameScreen = gameScreen;
 	}
-	
-	public void addListener(){
+
+	public void addListener() {
 		startButton.setOnAction((ActionEvent e) -> {
 			try {
 				action();
 			} catch (NameFormatException e1) {
-				// TODO Auto-generated catch block
+				// alert exception occur
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("NameFormatError");
 				alert.setHeaderText(null);
-				alert.setContentText("-Name must not be white space.\n"
-						+"-Replicated name is not allowed.");
+				alert.setContentText("-Name must not be white space.\n" + "-Replicated name is not allowed.");
 				alert.show();
 			}
 		});
-		
+
 		body1.setOnAction((ActionEvent e) -> {
 			TankColorUtility.setColorBodyPlayer1(Color.DARKBLUE);
 		});
-		
+
 		body2.setOnAction((ActionEvent e) -> {
 			TankColorUtility.setColorBodyPlayer1(Color.GREEN);
 		});
-		
+
 		body3.setOnAction((ActionEvent e) -> {
 			TankColorUtility.setColorBodyPlayer2(Color.ORANGE);
 		});
-		
+
 		body4.setOnAction((ActionEvent e) -> {
 			TankColorUtility.setColorBodyPlayer2(Color.PINK);
 		});
-		
+
 		gun1.setOnAction((ActionEvent e) -> {
 			TankColorUtility.setColorGunPlayer1(Color.WHITE);
 		});
-		
+
 		gun2.setOnAction((ActionEvent e) -> {
 			TankColorUtility.setColorGunPlayer1(Color.BROWN);
 		});
-		
+
 		gun3.setOnAction((ActionEvent e) -> {
 			TankColorUtility.setColorGunPlayer2(Color.PURPLE);
 		});
-		
+
 		gun4.setOnAction((ActionEvent e) -> {
 			TankColorUtility.setColorGunPlayer2(Color.AQUAMARINE);
 		});
 	}
-	
+
 	// Action when click startButton
-	public void action() throws NameFormatException{ 
-		int x1=210,y1=55,x2=100,y2=20;
-		if(player1TextField.getText().matches("^\\s*$") || player2TextField.getText().matches("^\\s*$")){
+	public void action() throws NameFormatException {
+
+		// try to get text from text field
+		if (player1TextField.getText().matches("^\\s*$") || player2TextField.getText().matches("^\\s*$")) {
 			throw new NameFormatException(1);
-		}
-		else if(player1TextField.getText().equals(player2TextField.getText())){
+		} else if (player1TextField.getText().equals(player2TextField.getText())) {
 			throw new NameFormatException(0);
 		}
+
 		Main.instance.startAnimation.stop();
-		// create the map here
-		for(int y = -20; y <= GameScreen.maxHeight + 20; y += 40){ // create boundary
-			if(y == -20 || y == GameScreen.maxHeight +20){
-				for(int x = 20; x <= GameScreen.maxWidth - 20; x += 40){
-					IRenderableHolder.getInstance().addEntity(new StrongObstacle(x,y));
+
+		createMap();
+
+		// set the new players to frame
+		Main.instance.ChangeScene();
+		gameScreen.findPlayer();
+
+	}
+
+	private void createMap() {
+
+		// create boundary of map
+		for (int y = -Obstacle.HEIGHT / 2; y <= GameUtility.BOARD_HEIGHT + Obstacle.HEIGHT / 2; y += Obstacle.HEIGHT) {
+			if (y == -Obstacle.HEIGHT / 2 || y == GameUtility.BOARD_HEIGHT + Obstacle.HEIGHT / 2) {
+				for (int x = Obstacle.WIDTH / 2; x <= GameUtility.BOARD_WIDTH
+						- Obstacle.WIDTH / 2; x += Obstacle.HEIGHT) {
+					IRenderableHolder.getInstance().addEntity(new StrongObstacle(x, y));
 				}
-			}else{
-				IRenderableHolder.getInstance().addEntity(new StrongObstacle(-20,y));
-				IRenderableHolder.getInstance().addEntity(new StrongObstacle(GameScreen.maxWidth +20,y));
+			} else {
+				IRenderableHolder.getInstance().addEntity(new StrongObstacle(-Obstacle.WIDTH / 2, y));
+				IRenderableHolder.getInstance()
+						.addEntity(new StrongObstacle(GameUtility.BOARD_WIDTH + Obstacle.HEIGHT / 2, y));
 			}
 		}
+
+		// get map data from text file
 		BufferedReader br;
-		try{
-			//System.out.println(ClassLoader.getSystemResource("gamemap.txt").toString());
+		try {
 			br = new BufferedReader(new FileReader(ClassLoader.getSystemResource("gamemap.txt").getFile()));
-		}catch(FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found");
 			e.printStackTrace();
 			return;
 		}
-		try{
+
+		// read map data and write it on the game
+		int x1 = 0, y1 = 0, x2 = 0, y2 = 0; // postion of 2 players
+		try {
 			String line;
 			int p = 0;
-		    while((line = br.readLine()) != null) {
-		    	String[] tmp = line.split(" ");
-		    	int x = Integer.parseInt(tmp[1]);
-		    	int y = Integer.parseInt(tmp[2]);
-		    	if(tmp[0].equals("StrongObstacle")) {
-		    		IRenderableHolder.getInstance().addEntity(new StrongObstacle(x, y));
-		    	}
-		    	else if(tmp[0].equals("WeakObstacle")) {
-		    		IRenderableHolder.getInstance().addEntity(new WeakObstacle(x, y));
-		    	}
-		    	else if(tmp[0].equals("Pond")) {
-		    		IRenderableHolder.getInstance().addEntity(new Pond(x, y));
-		    	}
-		    	else if(tmp[0].equals("Player")) {
-		    		if (p==0) {
-		    			x1=x;
-		    			y1=y;
-		    		}
-		    		else {
-		    			x2=x;
-		    			y2=y;
-		    		}
-		    		p++;
-		    	}
-		    }
+			while ((line = br.readLine()) != null) {
+				String[] tmp = line.split(" ");
+				int x = Integer.parseInt(tmp[1]);
+				int y = Integer.parseInt(tmp[2]);
+				if (tmp[0].equals("StrongObstacle")) {
+					IRenderableHolder.getInstance().addEntity(new StrongObstacle(x, y));
+				} else if (tmp[0].equals("WeakObstacle")) {
+					IRenderableHolder.getInstance().addEntity(new WeakObstacle(x, y));
+				} else if (tmp[0].equals("Pond")) {
+					IRenderableHolder.getInstance().addEntity(new Pond(x, y));
+				} else if (tmp[0].equals("Player")) {
+					if (p == 0) {
+						x1 = x;
+						y1 = y;
+					} else {
+						x2 = x;
+						y2 = y;
+					}
+					p++;
+				}
+			}
 			br.close();
-		}catch(IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(TankColorUtility.getColorBodyPlayer2() != null && TankColorUtility.getColorBodyPlayer1() != null 
-				&& TankColorUtility.getColorGunPlayer2() != null && TankColorUtility.getColorGunPlayer1() != null){
-			IRenderableHolder.getInstance().addEntity(new Player(player2TextField.getText(), x1, 
-					y1, GameUtility.UP, TankColorUtility.getColorBodyPlayer2(), TankColorUtility.getColorGunPlayer2()));
-			IRenderableHolder.getInstance().addEntity(new Player(player1TextField.getText(), x2, 
-					y2, GameUtility.UP, TankColorUtility.getColorBodyPlayer1(), TankColorUtility.getColorGunPlayer1()));
-		}else{
+
+		// add players to the game
+		if (TankColorUtility.getColorBodyPlayer2() != null && TankColorUtility.getColorBodyPlayer1() != null
+				&& TankColorUtility.getColorGunPlayer2() != null && TankColorUtility.getColorGunPlayer1() != null) {
+			IRenderableHolder.getInstance().addEntity(new Player(player2TextField.getText(), x1, y1, GameUtility.UP,
+					TankColorUtility.getColorBodyPlayer2(), TankColorUtility.getColorGunPlayer2()));
+			IRenderableHolder.getInstance().addEntity(new Player(player1TextField.getText(), x2, y2, GameUtility.UP,
+					TankColorUtility.getColorBodyPlayer1(), TankColorUtility.getColorGunPlayer1()));
+		} else {
 			IRenderableHolder.getInstance().addEntity(new Player(player2TextField.getText(), x1, y1, GameUtility.UP));
 			IRenderableHolder.getInstance().addEntity(new Player(player1TextField.getText(), x2, y2, GameUtility.UP));
 		}
-		// set the new players to frame
-		Main.instance.ChangeScene();
-		gameScreen.findPlayer();
-		
 	}
-	
-	public void initializeGUI(){
+
+	public void initializeGUI() {
 		this.setPrefSize(GameUtility.GAMESCREEN_WIDTH, GameUtility.GAMESCREEN_HEIGHT);
 		this.setAlignment(Pos.CENTER);
 		this.bg = ImageUtility.getBackgroundImage();
 		imageWidth = (int) bg.getWidth();
-		
+
 		startButton = new Button("Start");
 		startButton.setAlignment(Pos.CENTER);
 		startButton.setPrefSize(200, 20);
-		startButton.setStyle(style+"-fx-background-color: gray");
-		
+		startButton.setStyle(style + "-fx-background-color: gray");
+
 		player1TextField = new TextField();
 		player2TextField = new TextField();
-		
+
 		canvas = new Canvas(GameUtility.GAMESCREEN_WIDTH, GameUtility.GAMESCREEN_HEIGHT);
-		
+
 		body1 = new Button();
 		body1.setPrefSize(75, 75);
 		body1.setStyle("-fx-background-color: darkblue");
 		body2 = new Button();
-		body2.setPrefSize(75,75);
+		body2.setPrefSize(75, 75);
 		body2.setStyle("-fx-background-color: green");
 		body3 = new Button();
-		body3.setPrefSize(75,75);
+		body3.setPrefSize(75, 75);
 		body3.setStyle("-fx-background-color: orange");
 		body4 = new Button();
-		body4.setPrefSize(75,75);
+		body4.setPrefSize(75, 75);
 		body4.setStyle("-fx-background-color: pink");
 		gun1 = new Button();
-		gun1.setPrefSize(75,75);
+		gun1.setPrefSize(75, 75);
 		gun1.setStyle("-fx-background-color: white");
 		gun2 = new Button();
-		gun2.setPrefSize(75,75);
+		gun2.setPrefSize(75, 75);
 		gun2.setStyle("-fx-background-color: brown");
 		gun3 = new Button();
-		gun3.setPrefSize(75,75);
+		gun3.setPrefSize(75, 75);
 		gun3.setStyle("-fx-background-color: purple");
 		gun4 = new Button();
-		gun4.setPrefSize(75,75);
+		gun4.setPrefSize(75, 75);
 		gun4.setStyle("-fx-background-color: aquamarine");
 
 		Label bodyLabel1 = new Label("Body");
@@ -235,8 +245,7 @@ public class StartScreen extends StackPane{
 		vsLabel.setStyle(style);
 		Label titleLabel = new Label("Tank Game 1 vs 1");
 		titleLabel.setStyle(style);
-		
-		
+
 		GridPane leftPane = new GridPane();
 		leftPane.setPrefSize(300, 300);
 		leftPane.setVgap(10);
@@ -248,7 +257,7 @@ public class StartScreen extends StackPane{
 		leftPane.add(gunLabel1, 0, 2);
 		leftPane.add(gun1, 0, 3);
 		leftPane.add(gun2, 1, 3);
-		
+
 		GridPane rightPane = new GridPane();
 		rightPane.setPrefSize(300, 300);
 		rightPane.setVgap(10);
@@ -260,7 +269,7 @@ public class StartScreen extends StackPane{
 		rightPane.add(gunLabel2, 0, 2);
 		rightPane.add(gun3, 0, 3);
 		rightPane.add(gun4, 1, 3);
-		
+
 		GridPane centerPane = new GridPane();
 		centerPane.setPrefSize(500, 500);
 		centerPane.setVgap(30);
@@ -270,11 +279,10 @@ public class StartScreen extends StackPane{
 		centerPane.add(player2TextField, 1, 0);
 		centerPane.add(player1Label, 1, 2);
 		centerPane.add(player1TextField, 0, 2);
-		
-		
+
 		BorderPane boderPane = new BorderPane();
 		boderPane.setPrefSize(GameUtility.GAMESCREEN_WIDTH, GameUtility.GAMESCREEN_HEIGHT);
-		boderPane.setPadding(new Insets(20,20,20,20));
+		boderPane.setPadding(new Insets(20, 20, 20, 20));
 		boderPane.setBottom(startButton);
 		boderPane.setLeft(leftPane);
 		boderPane.setRight(rightPane);
@@ -282,26 +290,27 @@ public class StartScreen extends StackPane{
 		boderPane.setTop(titleLabel);
 		boderPane.setAlignment(startButton, Pos.CENTER);
 		boderPane.setAlignment(titleLabel, Pos.CENTER);
-		
+
 		this.getChildren().add(canvas);
 		this.getChildren().add(boderPane);
 		this.getChildren().add(vsLabel);
 	}
-	
-	public void paintComponents(){
+
+	public void paintComponents() {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setGlobalAlpha(0.8);
 		gc.clearRect(0, 0, GameUtility.GAMESCREEN_WIDTH, GameUtility.GAMESCREEN_HEIGHT);
-		WritableImage croppedImage = new WritableImage(bg.getPixelReader(), currentX, 0,
-		GameUtility.GAMESCREEN_WIDTH, GameUtility.GAMESCREEN_HEIGHT);
+		WritableImage croppedImage = new WritableImage(bg.getPixelReader(), currentX, 0, GameUtility.GAMESCREEN_WIDTH,
+				GameUtility.GAMESCREEN_HEIGHT);
 		gc.drawImage(croppedImage, 0, 0);
 		gc.setGlobalAlpha(1);
-		
+
 	}
-	
-	public void movementUpdate(){
+
+	public void movementUpdate() {
 		int newX = currentX + 1;
-		if(newX + GameUtility.GAMESCREEN_WIDTH > imageWidth) newX = 0;
+		if (newX + GameUtility.GAMESCREEN_WIDTH > imageWidth)
+			newX = 0;
 		currentX = newX;
 	}
 

@@ -49,7 +49,6 @@ public class Main extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception{
-		// TODO: ...
 		instance = this;
 		RandomUtility.init();
 		this.primaryStage = primaryStage;
