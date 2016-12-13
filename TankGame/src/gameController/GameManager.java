@@ -102,7 +102,7 @@ public class GameManager {
 
 	public static void endGame(String message) {
 		// clear eveything in this game
-		Main.instance.animation.stop();
+		Main.getInstance().getAnimation().stop();
 		ThreadHolder.getInstance().clear();
 		IRenderableHolder.getInstance().clear();
 
@@ -115,7 +115,7 @@ public class GameManager {
 
 			@Override
 			public void handle(DialogEvent event) {
-				Main.instance.ChangeScene();
+				Main.getInstance().changeScene();
 			}
 		});
 		alert.showAndWait();

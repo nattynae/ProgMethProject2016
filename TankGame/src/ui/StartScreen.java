@@ -108,12 +108,12 @@ public class StartScreen extends StackPane {
 			throw new NameFormatException(0);
 		}
 
-		Main.instance.startAnimation.stop();
+		Main.getInstance().getStartAnimation().stop();
 
 		createMap();
 
 		// set the new players to frame
-		Main.instance.ChangeScene();
+		Main.getInstance().changeScene();
 		gameScreen.findPlayer();
 
 	}
