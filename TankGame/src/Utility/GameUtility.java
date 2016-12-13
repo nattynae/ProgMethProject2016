@@ -21,6 +21,8 @@ public class GameUtility {
 	public static final int GAMESCREEN_HEIGHT = 650;
 	public static final int FRAME_WIDTH = 500;
 	public static final int FRAME_HEIGHT = 500;
+	public static final int BOARD_WIDTH = 1920;
+	public static final int BOARD_HEIGHT = 1160;
 
 	public static int getWidth(Entity e) {
 		if (e instanceof Player) {
