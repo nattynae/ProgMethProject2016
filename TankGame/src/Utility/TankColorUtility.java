@@ -2,7 +2,7 @@ package Utility;
 
 import javafx.scene.paint.Color;
 
-public class ColorUtility {
+public class TankColorUtility {
 	private static Color colorBodyPlayer1 = null;
 	private static Color colorBodyPlayer2 = null;
 	private static Color colorGunPlayer1 = null;

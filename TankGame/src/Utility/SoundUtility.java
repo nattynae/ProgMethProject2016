@@ -1,21 +1,27 @@
 package Utility;
 
-import Model.IRenderableHolder;
 import javafx.scene.media.AudioClip;
 
 public class SoundUtility {
-	private static AudioClip shootingSound = IRenderableHolder.shootingSound;
-	private static AudioClip deathSound = IRenderableHolder.deathSound;
-	private static AudioClip collectSound = IRenderableHolder.collectSound;
-	
-	public static void playSound(String sound){
-		if(shootingSound == null || deathSound == null || collectSound == null) return;
-		if(sound.equals("shoot")){
-			shootingSound.play();
-		}else if(sound.equals("death")){
-			deathSound.play();
-		}else if(sound.equals("collect")){
-			collectSound.play();
-		}
+	private static AudioClip shootingSound;
+	private static AudioClip deathSound;
+	private static AudioClip collectSound;
+
+	public static void loadSound() {
+		shootingSound = new AudioClip(ClassLoader.getSystemResource("shootingSound.wav").toString());
+		deathSound = new AudioClip(ClassLoader.getSystemResource("deathSound.wav").toString());
+		collectSound = new AudioClip(ClassLoader.getSystemResource("collect.wav").toString());
+	}
+
+	public static void playShootingSound() {
+		shootingSound.play();
+	}
+
+	public static void playDeathSound() {
+		deathSound.play();
+	}
+
+	public static void playCollectSound() {
+		collectSound.play();
 	}
 }

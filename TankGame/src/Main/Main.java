@@ -8,7 +8,10 @@ import Logic.ItemProducer;
 import Logic.ThreadsHolder;
 import Logic.TimeCounter;
 import Utility.GameUtility;
+import Utility.ImageUtility;
+import Utility.InputUtility;
 import Utility.RandomUtility;
+import Utility.SoundUtility;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -38,7 +41,6 @@ public class Main extends Application{
 	private StartScreen startScreen;
 	private GameScreen gameScreen ;
 	public AnimationTimer animation, startAnimation;
-	private static long tm = 0;
 	
 	private boolean isGameSceneShown = false;
 	public TimeCounter timeCounter;
@@ -53,6 +55,7 @@ public class Main extends Application{
 		instance = this;
 		RandomUtility.init();
 		this.primaryStage = primaryStage;
+		loadResource();
 		gameScreen = new GameScreen();
 		
 		gameScene = new Scene(gameScreen,GameUtility.GAMESCREEN_WIDTH, GameUtility.GAMESCREEN_HEIGHT);
@@ -72,7 +75,7 @@ public class Main extends Application{
 		});
 		
 		animation = new AnimationTimer() {
-			
+			//private int tm = 0;
 			@Override
 			public void handle(long now) {
 				// TODO Auto-generated method stub
@@ -84,10 +87,10 @@ public class Main extends Application{
 						threads.remove(i);
 					}
 				}
-				tm++;
-				if(tm%500==0) {
-					ItemProducer.produce();
-				}
+//				tm++;
+//				if(tm%500==0) {
+//					ItemProducer.produce();
+//				}
 			}
 		};
 		
@@ -126,6 +129,11 @@ public class Main extends Application{
 		
 	}
 	
+	private void loadResource() {
+		ImageUtility.loadImages();
+		SoundUtility.loadSound();
+	}
+	
 	public synchronized void ChangeScene(){
 		System.out.println("Change Scene");
 		if (this.isGameSceneShown){
@@ -137,7 +145,7 @@ public class Main extends Application{
 			this.primaryStage.setScene(gameScene);
 			animation.start();
 			timeCounter = new TimeCounter();
-			Thread t = new Thread(timeCounter);
+			Thread t = new Thread(new ItemProducer());
 			ThreadsHolder.instance.getThreads().add(t);
 			t.start();
 			System.out.println("To Game Screen");

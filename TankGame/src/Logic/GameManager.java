@@ -19,6 +19,7 @@ import Model.WeakObstacle;
 import Utility.GameUtility;
 import Utility.Geometry;
 import Utility.RandomUtility;
+import Utility.Rectangle;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogEvent;
@@ -32,31 +33,34 @@ public class GameManager {
 		int dy1 = GameUtility.getHeight(e1)/2;
 		int dx2 = GameUtility.getWidth(e2)/2;
 		int dy2 = GameUtility.getHeight(e2)/2;
-		if (Geometry.isPointInRect(e1.getX() - dx1, e1.getY() - dy1, e2.getX() - dx2, e2.getY() - dy2, e2.getX() + dx2, e2.getY() + dy2)) {
-			return true;
-		}
-		if (Geometry.isPointInRect(e1.getX() - dx1, e1.getY() + dy1, e2.getX() - dx2, e2.getY() - dx2, e2.getX() + dy2, e2.getY() + dy2)) {
-			return true;
-		}
-		if (Geometry.isPointInRect(e1.getX() + dx1, e1.getY() - dy1, e2.getX() - dx2, e2.getY() - dx2, e2.getX() + dy2, e2.getY() + dy2)) {
-			return true;
-		}
-		if (Geometry.isPointInRect(e1.getX() + dx1, e1.getY() + dy1, e2.getX() - dx2, e2.getY() - dx2, e2.getX() + dy2, e2.getY() + dy2)) {
-			return true;
-		}
-		if (Geometry.isPointInRect(e1.getX() - dx1, e1.getY(), e2.getX() - dx2, e2.getY() - dy2, e2.getX() + dx2, e2.getY() + dy2)) {
-			return true;
-		}
-		if (Geometry.isPointInRect(e1.getX() + dx1, e1.getY() + dy1, e2.getX() - dx2, e2.getY() - dx2, e2.getX() + dy2, e2.getY() + dy2)) {
-			return true;
-		}
-		if (Geometry.isPointInRect(e1.getX(), e1.getY() - dy1, e2.getX() - dx2, e2.getY() - dx2, e2.getX() + dy2, e2.getY() + dy2)) {
-			return true;
-		}
-		if (Geometry.isPointInRect(e1.getX(), e1.getY() + dy1, e2.getX() - dx2, e2.getY() - dx2, e2.getX() + dy2, e2.getY() + dy2)) {
-			return true;
-		}
-		return false;
+//		if (Geometry.isPointInRect(e1.getX() - dx1, e1.getY() - dy1, e2.getX() - dx2, e2.getY() - dy2, e2.getX() + dx2, e2.getY() + dy2)) {
+//			return true;
+//		}
+//		if (Geometry.isPointInRect(e1.getX() - dx1, e1.getY() + dy1, e2.getX() - dx2, e2.getY() - dx2, e2.getX() + dy2, e2.getY() + dy2)) {
+//			return true;
+//		}
+//		if (Geometry.isPointInRect(e1.getX() + dx1, e1.getY() - dy1, e2.getX() - dx2, e2.getY() - dx2, e2.getX() + dy2, e2.getY() + dy2)) {
+//			return true;
+//		}
+//		if (Geometry.isPointInRect(e1.getX() + dx1, e1.getY() + dy1, e2.getX() - dx2, e2.getY() - dx2, e2.getX() + dy2, e2.getY() + dy2)) {
+//			return true;
+//		}
+//		if (Geometry.isPointInRect(e1.getX() - dx1, e1.getY(), e2.getX() - dx2, e2.getY() - dy2, e2.getX() + dx2, e2.getY() + dy2)) {
+//			return true;
+//		}
+//		if (Geometry.isPointInRect(e1.getX() + dx1, e1.getY() + dy1, e2.getX() - dx2, e2.getY() - dx2, e2.getX() + dy2, e2.getY() + dy2)) {
+//			return true;
+//		}
+//		if (Geometry.isPointInRect(e1.getX(), e1.getY() - dy1, e2.getX() - dx2, e2.getY() - dx2, e2.getX() + dy2, e2.getY() + dy2)) {
+//			return true;
+//		}
+//		if (Geometry.isPointInRect(e1.getX(), e1.getY() + dy1, e2.getX() - dx2, e2.getY() - dx2, e2.getX() + dy2, e2.getY() + dy2)) {
+//			return true;
+//		}
+//		return false;
+		Rectangle rect1 = new Rectangle(e1.getX() - dx1, e1.getY() - dy1, e1.getX() + dx1, e1.getY() + dy1);
+		Rectangle rect2 = new Rectangle(e2.getX() - dx2, e2.getY() - dy2, e2.getX() + dx2, e2.getY() + dy2);
+		return Geometry.isRectangleIntersect(rect1, rect2);
 	}
 	
 	private static void collide(Entity e1, Entity e2) {

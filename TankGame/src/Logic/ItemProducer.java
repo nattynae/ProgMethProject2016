@@ -16,13 +16,14 @@ import Utility.GameUtility;
 import Utility.RandomUtility;
 import ui.GameScreen;
 
-public class ItemProducer{
+public class ItemProducer implements Runnable{
 	
-	public static void produce(){
+	@Override
+	public void run(){
 		// TODO Auto-generated method stub
-		//while(true) {
+		while(true) {
 			for (int i=0; i<4; i++) {
-				System.out.println("Produce Item");
+				//System.out.println("Produce Item");
 				Item item = buildItem();
 				if (item == null) continue;
 				IRenderableHolder.getInstance().addEntity(item);
@@ -30,13 +31,13 @@ public class ItemProducer{
 				ThreadsHolder.instance.addThread(t);
 				t.start();
 			}
-//			try{
-//				sleep(10000);
-//			}catch(InterruptedException e) {
-//				e.printStackTrace();
-//				return;
-//			}
-		//}
+			try{
+				Thread.sleep(7500);
+			}catch(InterruptedException e) {
+				e.printStackTrace();
+				return;
+			}
+		}
 	}
 	
 	private static Item buildItem() {

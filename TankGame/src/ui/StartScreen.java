@@ -13,8 +13,9 @@ import Model.Player;
 import Model.Pond;
 import Model.StrongObstacle;
 import Model.WeakObstacle;
-import Utility.ColorUtility;
+import Utility.TankColorUtility;
 import Utility.GameUtility;
+import Utility.ImageUtility;
 import Utility.NameFormatException;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -67,35 +68,35 @@ public class StartScreen extends StackPane{
 		});
 		
 		body1.setOnAction((ActionEvent e) -> {
-			ColorUtility.setColorBodyPlayer1(Color.DARKBLUE);
+			TankColorUtility.setColorBodyPlayer1(Color.DARKBLUE);
 		});
 		
 		body2.setOnAction((ActionEvent e) -> {
-			ColorUtility.setColorBodyPlayer1(Color.GREEN);
+			TankColorUtility.setColorBodyPlayer1(Color.GREEN);
 		});
 		
 		body3.setOnAction((ActionEvent e) -> {
-			ColorUtility.setColorBodyPlayer2(Color.ORANGE);
+			TankColorUtility.setColorBodyPlayer2(Color.ORANGE);
 		});
 		
 		body4.setOnAction((ActionEvent e) -> {
-			ColorUtility.setColorBodyPlayer2(Color.PINK);
+			TankColorUtility.setColorBodyPlayer2(Color.PINK);
 		});
 		
 		gun1.setOnAction((ActionEvent e) -> {
-			ColorUtility.setColorGunPlayer1(Color.WHITE);
+			TankColorUtility.setColorGunPlayer1(Color.WHITE);
 		});
 		
 		gun2.setOnAction((ActionEvent e) -> {
-			ColorUtility.setColorGunPlayer1(Color.BROWN);
+			TankColorUtility.setColorGunPlayer1(Color.BROWN);
 		});
 		
 		gun3.setOnAction((ActionEvent e) -> {
-			ColorUtility.setColorGunPlayer2(Color.PURPLE);
+			TankColorUtility.setColorGunPlayer2(Color.PURPLE);
 		});
 		
 		gun4.setOnAction((ActionEvent e) -> {
-			ColorUtility.setColorGunPlayer2(Color.AQUAMARINE);
+			TankColorUtility.setColorGunPlayer2(Color.AQUAMARINE);
 		});
 	}
 	
@@ -161,12 +162,12 @@ public class StartScreen extends StackPane{
 		}catch(IOException e){
 			e.printStackTrace();
 		}
-		if(ColorUtility.getColorBodyPlayer2() != null && ColorUtility.getColorBodyPlayer1() != null 
-				&& ColorUtility.getColorGunPlayer2() != null && ColorUtility.getColorGunPlayer1() != null){
+		if(TankColorUtility.getColorBodyPlayer2() != null && TankColorUtility.getColorBodyPlayer1() != null 
+				&& TankColorUtility.getColorGunPlayer2() != null && TankColorUtility.getColorGunPlayer1() != null){
 			IRenderableHolder.getInstance().addEntity(new Player(player2TextField.getText(), x1, 
-					y1, GameUtility.UP, ColorUtility.getColorBodyPlayer2(), ColorUtility.getColorGunPlayer2()));
+					y1, GameUtility.UP, TankColorUtility.getColorBodyPlayer2(), TankColorUtility.getColorGunPlayer2()));
 			IRenderableHolder.getInstance().addEntity(new Player(player1TextField.getText(), x2, 
-					y2, GameUtility.UP, ColorUtility.getColorBodyPlayer1(), ColorUtility.getColorGunPlayer1()));
+					y2, GameUtility.UP, TankColorUtility.getColorBodyPlayer1(), TankColorUtility.getColorGunPlayer1()));
 		}else{
 			IRenderableHolder.getInstance().addEntity(new Player(player2TextField.getText(), x1, y1, GameUtility.UP));
 			IRenderableHolder.getInstance().addEntity(new Player(player1TextField.getText(), x2, y2, GameUtility.UP));
@@ -180,7 +181,7 @@ public class StartScreen extends StackPane{
 	public void initializeGUI(){
 		this.setPrefSize(GameUtility.GAMESCREEN_WIDTH, GameUtility.GAMESCREEN_HEIGHT);
 		this.setAlignment(Pos.CENTER);
-		this.bg = IRenderableHolder.bg;
+		this.bg = ImageUtility.getBackgroundImage();
 		imageWidth = (int) bg.getWidth();
 		
 		startButton = new Button("Start");

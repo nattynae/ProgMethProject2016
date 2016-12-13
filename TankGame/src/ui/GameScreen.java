@@ -25,6 +25,7 @@ import Model.SpeedItem;
 import Model.StrongObstacle;
 import Model.WeakObstacle;
 import Utility.GameUtility;
+import Utility.ImageUtility;
 import Utility.InputUtility;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
@@ -59,7 +60,7 @@ public class GameScreen extends StackPane{
 		this.setPrefSize(GameUtility.GAMESCREEN_WIDTH, GameUtility.GAMESCREEN_HEIGHT);
 		
 		// use background from IRenderableHolder
-		this.bg = IRenderableHolder.gameBG;
+		this.bg = ImageUtility.getGameBackgroundImage();
 		// create canvas
 		this.canvas = new Canvas(GameUtility.GAMESCREEN_WIDTH, GameUtility.GAMESCREEN_HEIGHT);
 		canvas.setVisible(true);			

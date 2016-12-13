@@ -1,31 +1,30 @@
 package Model;
 
+import Utility.ImageUtility;
 import Utility.SoundUtility;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-public class BulletItem extends Item{
-	
+public class BulletItem extends Item {
+
 	public BulletItem(int x, int y) {
 		super(x, y);
 	}
-	
+
 	@Override
-	public void draw(GraphicsContext gc, int x ,int y) {
+	public void draw(GraphicsContext gc, int x, int y) {
 		gc.setFill(Color.GREEN);
-		gc.fillRoundRect(x-WIDTH/2, y-HEIGHT/2, WIDTH, HEIGHT, 10, 10);
+		gc.fillRoundRect(x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT, ARCWIDTH, ARCHEIGHT);
 		gc.setStroke(Color.WHITE);
 		gc.setLineWidth(1);
-		gc.strokeRoundRect(x-WIDTH/2, y-HEIGHT/2, WIDTH, HEIGHT, 10, 10);
-		Image image = IRenderableHolder.bulletIcon;
-		gc.drawImage(image, x-WIDTH/2, y-HEIGHT/2);
+		gc.strokeRoundRect(x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT, ARCWIDTH, ARCHEIGHT);
+		Image image = ImageUtility.getBulletIconImage();
+		gc.drawImage(image, x - WIDTH / 2, y - HEIGHT / 2);
 	}
-	
+
 	@Override
-	public void collect(Player player) {
+	protected void increasePlayerStatus(Player player) {
 		player.increaseBullets();
-		hp = 0;
-		SoundUtility.playSound("collect");
 	}
 }
