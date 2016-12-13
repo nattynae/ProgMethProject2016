@@ -1,5 +1,6 @@
 package Logic;
 
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import Model.ATKItem;
@@ -13,70 +14,65 @@ import Model.Item;
 import Model.SpeedItem;
 import Utility.GameUtility;
 import Utility.RandomUtility;
+import ui.GameScreen;
 
-public class ItemProducer implements Runnable {
-
+public class ItemProducer implements Runnable{
+	
 	@Override
-	public void run() {
-		while (true) {
-			for (int i = 0; i < 4; i++) {
-				System.out.println("Produce Item");
+	public void run(){
+		// TODO Auto-generated method stub
+		while(true) {
+			for (int i=0; i<4; i++) {
+				//System.out.println("Produce Item");
 				Item item = buildItem();
-				if (item == null)
-					continue;
+				if (item == null) continue;
 				IRenderableHolder.getInstance().addEntity(item);
 				Thread t = new ItemDestroyer(item);
 				ThreadHolder.getInstance().addThread(t);
 				t.start();
 			}
-			try {
+			try{
 				Thread.sleep(7500);
-			} catch (InterruptedException e) {
+			}catch(InterruptedException e) {
 				e.printStackTrace();
 				return;
 			}
 		}
 	}
-
+	
 	private static Item buildItem() {
-		int x = RandomUtility.random(GameUtility.BOARD_WIDTH - Item.WIDTH) + Item.WIDTH / 2;
-		int y = RandomUtility.random(GameUtility.BOARD_HEIGHT - Item.HEIGHT) + Item.HEIGHT / 2;
+		//TODO: wait for width and size of each entity & number of obstacle (range)
+		int x = RandomUtility.random(GameScreen.maxWidth - 40) + 20;
+		int y = RandomUtility.random(GameScreen.maxHeight - 40) + 20;
+		//int x = RandomUtility.random(460) + 20;
+		//int y = RandomUtility.random(460) + 20;
 		while (!canPlaceAt(x, y)) { // TODO: check if can place here
-			x = RandomUtility.random(GameUtility.BOARD_WIDTH - Item.WIDTH) + Item.WIDTH / 2;
-			y = RandomUtility.random(GameUtility.BOARD_HEIGHT - Item.HEIGHT) + Item.HEIGHT / 2;
-
+			x = RandomUtility.random(GameScreen.maxWidth - 40) + 20;
+			y = RandomUtility.random(GameScreen.maxHeight - 40) + 20;
+			//x = RandomUtility.random(460) + 20;
+			//y = RandomUtility.random(460) + 20;
+			
 		}
 		int type = RandomUtility.random(6);
 		Item item;
-		switch (type) {
-		case 1:
-			item = new ATKItem(x, y);
-			break;
-		case 2:
-			item = new ATKSpeedItem(x, y);
-			break;
-		case 3:
-			item = new BulletItem(x, y);
-			break;
-		case 4:
-			item = new HPItem(x, y);
-			break;
-		case 5:
-			item = new SpeedItem(x, y);
-			break;
-		default:
-			return null;
+		switch(type) {
+		case 1: item = new ATKItem(x, y); break;
+		case 2: item = new ATKSpeedItem(x, y); break;
+		case 3: item = new BulletItem(x, y); break;
+		case 4: item = new HPItem(x, y); break;
+		case 5: item = new SpeedItem(x, y); break;
+		default: return null;
 		}
 		return item;
 	}
-
-	private static boolean canPlaceAt(int x, int y) {
-		Item dummy = new HPItem(x, y); // dummy item
+	
+	private static boolean canPlaceAt(int x,int y) throws ConcurrentModificationException{
+		Item tmp = new HPItem(x, y);
 		List<IRenderable> entities = IRenderableHolder.getInstance().getEntities();
-		for (int i = 0; i < entities.size(); i++) {
+		for(int i=0; i< entities.size(); i++) {
 			if (entities.get(i) instanceof Entity) {
-				Entity e = (Entity) entities.get(i);
-				if (GameManager.isCollide(e, dummy)) {
+				Entity e = (Entity)entities.get(i);
+				if (GameManager.isCollide(e, tmp) || GameManager.isCollide(tmp, e)) {
 					return false;
 				}
 			}
