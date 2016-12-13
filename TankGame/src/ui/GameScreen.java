@@ -223,7 +223,6 @@ public class GameScreen extends StackPane{
 		paintFrame2(gc);
 		paintUI(gc);
 		paintStatus(gc);
-		paintTime(gc);
 	}
 	
 	private void paintFrame1(GraphicsContext gc){ //draw frame1 the right frame
@@ -332,22 +331,6 @@ public class GameScreen extends StackPane{
 		gc.fillText("ATKSpeed: "+player1.getATKSpeed()+"/13", 850, 570);
 		gc.fillText("Bullet: "+player1.getBullets()+"/5", 850, 595);
 	}
-	
-	public void paintTime(GraphicsContext gc){
-		Font font = Font.font("Times New Roman", FontWeight.LIGHT, 20);
-		gc.setFont(font);
-		
-		FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
-		double font_width = fontLoader.computeStringWidth(Main.instance.timeCounter.getTime()+"", font);
-		double font_height = fontLoader.getFontMetrics(gc.getFont()).getLineHeight();
-		gc.setFill(Color.WHITE);
-		gc.fillRoundRect(GameUtility.GAMESCREEN_WIDTH/2 - font_width/2-1, 5, font_width+2, font_height-3,
-				5, 5);
-		gc.setFill(Color.BLACK);
-		gc.fillText(Main.instance.timeCounter.getTime()+"", GameUtility.GAMESCREEN_WIDTH/2 - font_width/2, font_height);
-	}
-	
-	
 	
 	public void findPlayer(){ //use to find player and capture in the frame
 		int i = 0;

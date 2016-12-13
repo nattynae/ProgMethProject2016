@@ -6,7 +6,6 @@ import java.util.List;
 import Logic.GameManager;
 import Logic.ItemProducer;
 import Logic.ThreadsHolder;
-import Logic.TimeCounter;
 import Utility.GameUtility;
 import Utility.ImageUtility;
 import Utility.InputUtility;
@@ -43,7 +42,6 @@ public class Main extends Application{
 	public AnimationTimer animation, startAnimation;
 	
 	private boolean isGameSceneShown = false;
-	public TimeCounter timeCounter;
 	
 	public static void main(String args[]) {
 		launch(args);
@@ -75,7 +73,6 @@ public class Main extends Application{
 		});
 		
 		animation = new AnimationTimer() {
-			//private int tm = 0;
 			@Override
 			public void handle(long now) {
 				// TODO Auto-generated method stub
@@ -87,10 +84,6 @@ public class Main extends Application{
 						threads.remove(i);
 					}
 				}
-//				tm++;
-//				if(tm%500==0) {
-//					ItemProducer.produce();
-//				}
 			}
 		};
 		
@@ -144,10 +137,6 @@ public class Main extends Application{
 		else{
 			this.primaryStage.setScene(gameScene);
 			animation.start();
-			timeCounter = new TimeCounter();
-			Thread t = new Thread(new ItemProducer());
-			ThreadsHolder.instance.getThreads().add(t);
-			t.start();
 			System.out.println("To Game Screen");
 		}
 		this.isGameSceneShown = !this.isGameSceneShown;
