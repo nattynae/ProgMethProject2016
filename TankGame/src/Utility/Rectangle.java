@@ -35,7 +35,7 @@ public class Rectangle {
 	public int getYmid() {
 		return (y0 + y1) / 2;
 	}
-	
+
 	public int getArea() {
 		return (x1 - x0) * (y1 - y0);
 	}

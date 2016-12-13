@@ -1,13 +1,14 @@
 package Utility;
 
 public class Geometry {
-	
+
 	public static boolean isPointInRectangle(Point pt, Rectangle rect) {
-		return rect.getX0() < pt.getX() && pt.getX() < rect.getX1() 
-				&& rect.getY0() < pt.getY() && pt.getY() < rect.getY1();
+		return rect.getX0() < pt.getX() && pt.getX() < rect.getX1() && rect.getY0() < pt.getY()
+				&& pt.getY() < rect.getY1();
 	}
-	
-	public static boolean isRectangleIntersect(Rectangle rect0, Rectangle rect1) { // for square only
+
+	// this method is used for square only
+	public static boolean isRectangleIntersect(Rectangle rect0, Rectangle rect1) {
 		if (rect0.getArea() > rect1.getArea()) {
 			Rectangle tmp0 = rect0;
 			Rectangle tmp1 = rect1;
@@ -24,5 +25,5 @@ public class Geometry {
 				|| isPointInRectangle(new Point(rect0.getX1(), rect0.getYmid()), rect1)
 				|| isPointInRectangle(new Point(rect0.getX1(), rect0.getY1()), rect1);
 	}
-	
+
 }
