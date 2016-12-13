@@ -1,16 +1,11 @@
-package Main;
+package main;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Logic.GameManager;
-import Logic.ItemProducer;
-import Logic.ThreadHolder;
-import Utility.GameUtility;
-import Utility.ImageUtility;
-import Utility.InputUtility;
-import Utility.RandomUtility;
-import Utility.SoundUtility;
+import gameController.GameManager;
+import gameController.ItemProducer;
+import gameController.ThreadHolder;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -30,6 +25,11 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import ui.GameScreen;
 import ui.StartScreen;
+import utility.GameUtility;
+import utility.ImageUtility;
+import utility.InputUtility;
+import utility.RandomUtility;
+import utility.SoundUtility;
 
 public class Main extends Application{
 	public static Main instance;

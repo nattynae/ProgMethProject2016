@@ -1,8 +1,8 @@
-package Model;
+package model;
 
-import Utility.ImageUtility;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import utility.ImageUtility;
 
 public class Pond extends Entity implements BulletPassable, Obstacle {
 	public static final int WIDTH = 40;

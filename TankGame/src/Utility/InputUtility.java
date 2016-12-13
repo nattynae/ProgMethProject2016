@@ -1,4 +1,4 @@
-package Utility;
+package utility;
 
 public class InputUtility {
 	private static boolean holdKeyUp1 = false;

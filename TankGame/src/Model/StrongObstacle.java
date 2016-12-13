@@ -1,8 +1,8 @@
-package Model;
+package model;
 
-import Utility.ImageUtility;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import utility.ImageUtility;
 
 public class StrongObstacle extends Entity implements Obstacle {
 

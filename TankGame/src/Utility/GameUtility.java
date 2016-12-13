@@ -1,10 +1,10 @@
-package Utility;
+package utility;
 
-import Model.Bullet;
-import Model.Entity;
-import Model.Item;
-import Model.Obstacle;
-import Model.Player;
+import model.Bullet;
+import model.Entity;
+import model.Item;
+import model.Obstacle;
+import model.Player;
 
 public class GameUtility {
 

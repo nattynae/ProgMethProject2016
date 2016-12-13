@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public interface Obstacle {
 	public static final int WIDTH = 40;

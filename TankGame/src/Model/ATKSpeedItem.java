@@ -1,9 +1,9 @@
-package Model;
+package model;
 
-import Utility.ImageUtility;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import utility.ImageUtility;
 
 public class ATKSpeedItem extends Item {
 

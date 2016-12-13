@@ -1,14 +1,14 @@
-package Model;
+package model;
 
 import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
 
-import Utility.GameUtility;
-import Utility.SoundUtility;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import utility.GameUtility;
+import utility.SoundUtility;
 
 public class Player extends Entity implements Movable {
 	public static final int WIDTH = 30;

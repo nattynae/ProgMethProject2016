@@ -1,9 +1,9 @@
-package Model;
+package model;
 
-import Utility.GameUtility;
-import Utility.SoundUtility;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import utility.GameUtility;
+import utility.SoundUtility;
 
 public class Bullet extends Entity implements Movable, BulletPassable {
 	public static final int WIDTH = 10;

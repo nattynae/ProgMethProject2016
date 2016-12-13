@@ -1,7 +1,7 @@
-package Model;
+package model;
 
-import Utility.SoundUtility;
 import javafx.scene.canvas.GraphicsContext;
+import utility.SoundUtility;
 
 public abstract class Item extends Entity implements BulletPassable {
 	public static final int WIDTH = 30;
