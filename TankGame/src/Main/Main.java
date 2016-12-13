@@ -133,13 +133,17 @@ public class Main extends Application{
 		}
 		else{
 			this.primaryStage.setScene(gameScene);
-			Thread t = new Thread(new ItemProducer());
-			ThreadHolder.getInstance().addThread(t);
-			t.start();
+			startItemProducer();
 			animation.start();
 			System.out.println("To Game Screen");
 		}
 		this.isGameSceneShown = !this.isGameSceneShown;
-	} 
+	}
+	
+	private void startItemProducer() {
+		Thread t = new Thread(new ItemProducer());
+		ThreadHolder.getInstance().addThread(t);
+		t.start();
+	}
 	
 }
