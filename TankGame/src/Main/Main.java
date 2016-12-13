@@ -5,7 +5,7 @@ import java.util.List;
 
 import Logic.GameManager;
 import Logic.ItemProducer;
-import Logic.ThreadsHolder;
+import Logic.ThreadHolder;
 import Utility.GameUtility;
 import Utility.ImageUtility;
 import Utility.InputUtility;
@@ -78,7 +78,7 @@ public class Main extends Application{
 				// TODO Auto-generated method stub
 				gameScreen.update();
 				gameScreen.paintComponenet();
-				List<Thread> threads = ThreadsHolder.instance.getThreads();
+				List<Thread> threads = ThreadHolder.getInstance().getThreads();
 				for (int i=threads.size()-1; i>=0; i--) {
 					if (!threads.get(i).isAlive()) {
 						threads.remove(i);
@@ -104,10 +104,7 @@ public class Main extends Application{
 			@Override
 			public void handle(WindowEvent event) {
 				// TODO Auto-generated method stub
-				for (Thread t: ThreadsHolder.instance.getThreads()) {
-					t.interrupt();
-				}
-				ThreadsHolder.instance.getThreads().clear();
+				ThreadHolder.getInstance().clear();
 				startAnimation.stop();
 				animation.stop();
 			}

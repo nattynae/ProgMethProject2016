@@ -181,10 +181,7 @@ public class GameManager {
 		alert.setHeaderText(null);
 		alert.setContentText(message);
 		Main.instance.animation.stop();
-		for (Thread t: ThreadsHolder.instance.getThreads()) {
-			t.interrupt();
-		}
-		ThreadsHolder.instance.getThreads().clear();
+		ThreadHolder.getInstance().clear();
 		IRenderableHolder.getInstance().clear();
 		alert.setOnCloseRequest(new EventHandler<DialogEvent>() {
 			
