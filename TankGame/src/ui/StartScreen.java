@@ -4,6 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import com.sun.javafx.tk.FontLoader;
+import com.sun.javafx.tk.Toolkit;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -21,6 +26,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import main.Main;
 import model.IRenderableHolder;
 import model.Obstacle;
@@ -134,45 +141,29 @@ public class StartScreen extends StackPane {
 			}
 		}
 
-		// get map data from text file
-		BufferedReader br;
-		try {
-			br = new BufferedReader(new FileReader(ClassLoader.getSystemResource("gamemap.txt").getFile()));
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
-			e.printStackTrace();
-			return;
-		}
-
 		// read map data and write it on the game
 		int x1 = 0, y1 = 0, x2 = 0, y2 = 0; // postion of 2 players
-		try {
-			String line;
-			int p = 0;
-			while ((line = br.readLine()) != null) {
-				String[] tmp = line.split(" ");
-				int x = Integer.parseInt(tmp[1]);
-				int y = Integer.parseInt(tmp[2]);
-				if (tmp[0].equals("StrongObstacle")) {
-					IRenderableHolder.getInstance().addEntity(new StrongObstacle(x, y));
-				} else if (tmp[0].equals("WeakObstacle")) {
-					IRenderableHolder.getInstance().addEntity(new WeakObstacle(x, y));
-				} else if (tmp[0].equals("Pond")) {
-					IRenderableHolder.getInstance().addEntity(new Pond(x, y));
-				} else if (tmp[0].equals("Player")) {
-					if (p == 0) {
-						x1 = x;
-						y1 = y;
-					} else {
-						x2 = x;
-						y2 = y;
-					}
-					p++;
+		int p = 0;
+		for (String line: GameUtility.MAP_DATA) {
+			String[] tmp = line.split(" ");
+			int x = Integer.parseInt(tmp[1]);
+			int y = Integer.parseInt(tmp[2]);
+			if (tmp[0].equals("StrongObstacle")) {
+				IRenderableHolder.getInstance().addEntity(new StrongObstacle(x, y));
+			} else if (tmp[0].equals("WeakObstacle")) {
+				IRenderableHolder.getInstance().addEntity(new WeakObstacle(x, y));
+			} else if (tmp[0].equals("Pond")) {
+				IRenderableHolder.getInstance().addEntity(new Pond(x, y));
+			} else if (tmp[0].equals("Player")) {
+				if (p == 0) {
+					x1 = x;
+					y1 = y;
+				} else {
+					x2 = x;
+					y2 = y;
 				}
+				p++;
 			}
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
 		// add players to the game
@@ -304,7 +295,22 @@ public class StartScreen extends StackPane {
 				GameUtility.GAMESCREEN_HEIGHT);
 		gc.drawImage(croppedImage, 0, 0);
 		gc.setGlobalAlpha(1);
+		paintWinner(gc);
 
+	}
+
+	private void paintWinner(GraphicsContext gc) {
+		// last game is draw, or this is the first round
+		if (GameUtility.getWinner().equals(""))
+			return;
+		
+		// draw a name of winner
+		gc.setFill(Color.WHITE);
+		Font font = Font.font("Times New Roman", FontWeight.LIGHT, 50);
+		gc.setFont(font);
+		FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
+		double font_width = fontLoader.computeStringWidth(GameUtility.getWinner() + " is the winner", font);
+		gc.fillText(GameUtility.getWinner() + " is the winner", GameUtility.GAMESCREEN_WIDTH / 2 - font_width / 2, 150);
 	}
 
 	public void movementUpdate() {

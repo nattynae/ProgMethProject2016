@@ -25,7 +25,7 @@ public class ItemProducer implements Runnable {
 				if (item == null)
 					continue;
 				IRenderableHolder.getInstance().addEntity(item);
-				Thread t = new ItemDestroyer(item);
+				Thread t = new Thread(new ItemDestroyer(item));
 				ThreadHolder.getInstance().addThread(t);
 				t.start();
 			}

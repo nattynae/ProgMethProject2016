@@ -2,23 +2,23 @@ package gameController;
 
 import model.Item;
 
-public class ItemDestroyer extends Thread{
-	
+public class ItemDestroyer implements Runnable {
+
 	private Item item;
-	
+
 	public ItemDestroyer(Item item) {
 		this.item = item;
 	}
-	
+
 	@Override
 	public void run() {
-		try{
-			sleep(50000);
-		}catch(InterruptedException e) {
+		try {
+			Thread.sleep(50000);
+			item.destroy();
+			System.out.println("Destroy Item");
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 			return;
 		}
-		item.destroy();
-		System.out.println("Destroy Item");
 	}
 }

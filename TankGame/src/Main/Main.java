@@ -57,9 +57,9 @@ public class Main extends Application {
 		});
 
 		animation = new AnimationTimer() {
+			
 			@Override
 			public void handle(long now) {
-				// TODO Auto-generated method stub
 				gameScreen.update();
 				gameScreen.paintComponenet();
 				List<Thread> threads = ThreadHolder.getInstance().getThreads();
