@@ -12,7 +12,6 @@ public class ItemDestroyer extends Thread{
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		try{
 			sleep(50000);
 		}catch(InterruptedException e) {
