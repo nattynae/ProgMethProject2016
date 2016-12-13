@@ -12,8 +12,8 @@ public class Geometry {
 		if (rect0.getArea() > rect1.getArea()) {
 			Rectangle tmp0 = rect0;
 			Rectangle tmp1 = rect1;
-			rect0 = tmp0;
-			rect1 = tmp1;
+			rect0 = tmp1;
+			rect1 = tmp0;
 		}
 		return isPointInRectangle(new Point(rect0.getX0(), rect0.getY0()), rect1)
 				|| isPointInRectangle(new Point(rect0.getX0(), rect0.getYmid()), rect1)

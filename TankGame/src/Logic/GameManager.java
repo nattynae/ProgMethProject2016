@@ -3,22 +3,15 @@ package Logic;
 import java.util.List;
 
 import Main.Main;
-import Model.ATKItem;
-import Model.ATKSpeedItem;
 import Model.Bullet;
-import Model.BulletItem;
 import Model.BulletPassable;
 import Model.Entity;
-import Model.HPItem;
 import Model.IRenderable;
 import Model.IRenderableHolder;
 import Model.Item;
 import Model.Player;
-import Model.SpeedItem;
-import Model.WeakObstacle;
 import Utility.GameUtility;
 import Utility.Geometry;
-import Utility.RandomUtility;
 import Utility.Rectangle;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -28,7 +21,6 @@ import javafx.scene.control.Alert.AlertType;
 public class GameManager {
 	
 	public static boolean isCollide(Entity e1, Entity e2) {
-		//TODO: wait for width and size of each entity
 		int dx1 = GameUtility.getWidth(e1)/2;
 		int dy1 = GameUtility.getHeight(e1)/2;
 		int dx2 = GameUtility.getWidth(e2)/2;
@@ -168,21 +160,29 @@ public class GameManager {
 				Entity e1 = (Entity)entities.get(i);
 				Entity e2 = (Entity)entities.get(j);
 				if(e1.isDestroyed() || e2.isDestroyed()) continue;
-				if (isCollide(e1, e2) || isCollide(e2, e1)){
+				if (isCollide(e1, e2)){
 					collide(e1, e2);
 				}
 			}
 		}
 	}
 	
+	// call this method when a player collide with an entity
+	private void doCollision(Player e1, Entity e2) {
+		
+	}
+	
 	public static void endGame(String message) {
+		// clear eveything in this game
+		Main.instance.animation.stop();
+		ThreadHolder.getInstance().clear();
+		IRenderableHolder.getInstance().clear();
+		
+		// notify game ending
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("GAME END!!");
 		alert.setHeaderText(null);
 		alert.setContentText(message);
-		Main.instance.animation.stop();
-		ThreadHolder.getInstance().clear();
-		IRenderableHolder.getInstance().clear();
 		alert.setOnCloseRequest(new EventHandler<DialogEvent>() {
 			
 			@Override
