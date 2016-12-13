@@ -32,8 +32,8 @@ public class GameScreen extends StackPane {
 	private Player player1, player2;
 	private static int frameWidth = GameUtility.FRAME_WIDTH;
 	private static int frameHeight = GameUtility.FRAME_HEIGHT;
-	public static int maxWidth = GameUtility.BOARD_WIDTH;
-	public static int maxHeight = GameUtility.BOARD_HEIGHT;
+	private static int maxWidth = GameUtility.BOARD_WIDTH;
+	private static int maxHeight = GameUtility.BOARD_HEIGHT;
 	private int[] currentX, currentY, speed; // for rendering each frame
 
 	public GameScreen() {
