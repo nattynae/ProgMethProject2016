@@ -106,22 +106,7 @@ public class GameManager {
 			}
 			else if (e2 instanceof Entity) {
 				//TODO: wait for width and size of each entity
-				int dx1 = GameUtility.getWidth(e1)/2;
-				int dy1 = GameUtility.getHeight(e1)/2;
-				int dx2 = GameUtility.getWidth(e2)/2;
-				int dy2 = GameUtility.getHeight(e2)/2;
-				if (((Player) e1).getDirection() == GameUtility.UP) {
-					e1.setY(e2.getY() + dy1 + dy2);
-				}
-				else if (((Player) e1).getDirection() == GameUtility.RIGHT) {
-					e1.setX(e2.getX() - dx1 - dx2);
-				}
-				else if (((Player) e1).getDirection() == GameUtility.DOWN) {
-					e1.setY(e2.getY() - dy1 - dy2);
-				}
-				else if (((Player) e1).getDirection() == GameUtility.LEFT) {
-					e1.setX(e2.getX() + dy1 + dy2);
-				}
+				doCollision((Player) e1, e2);
 			}
 		}
 		else if (e2 instanceof Player) {
@@ -132,23 +117,7 @@ public class GameManager {
 				return;
 			}
 			else if (e1 instanceof Entity) {
-				//TODO: wait for width and size of each entity
-				int dx1 = GameUtility.getWidth(e1)/2;
-				int dy1 = GameUtility.getHeight(e1)/2;
-				int dx2 = GameUtility.getWidth(e2)/2;
-				int dy2 = GameUtility.getHeight(e2)/2;
-				if (((Player) e2).getDirection() == GameUtility.UP) {
-					e2.setY(e1.getY() + dy1 + dy2);
-				}
-				else if (((Player) e2).getDirection() == GameUtility.RIGHT) {
-					e2.setX(e1.getX() - dx1 - dx2);
-				}
-				else if (((Player) e2).getDirection() == GameUtility.DOWN) {
-					e2.setY(e1.getY() - dy1 - dy2);
-				}
-				else if (((Player) e2).getDirection() == GameUtility.LEFT) {
-					e2.setX(e1.getX() + dx1 + dx2);
-				}
+				doCollision((Player) e2, e1);
 			}
 		}
 	}
@@ -168,8 +137,23 @@ public class GameManager {
 	}
 	
 	// call this method when a player collide with an entity
-	private void doCollision(Player e1, Entity e2) {
-		
+	private static void doCollision(Player e1, Entity e2) {
+		int dx1 = GameUtility.getWidth(e1)/2;
+		int dy1 = GameUtility.getHeight(e1)/2;
+		int dx2 = GameUtility.getWidth(e2)/2;
+		int dy2 = GameUtility.getHeight(e2)/2;
+		if (e1.getDirection() == GameUtility.UP) {
+			e1.setY(e2.getY() + dy1 + dy2);
+		}
+		else if (e1.getDirection() == GameUtility.RIGHT) {
+			e1.setX(e2.getX() - dx1 - dx2);
+		}
+		else if (e1.getDirection() == GameUtility.DOWN) {
+			e1.setY(e2.getY() - dy1 - dy2);
+		}
+		else if (e1.getDirection() == GameUtility.LEFT) {
+			e1.setX(e2.getX() + dy1 + dy2);
+		}
 	}
 	
 	public static void endGame(String message) {
