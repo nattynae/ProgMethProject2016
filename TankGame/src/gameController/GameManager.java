@@ -1,22 +1,22 @@
-package Logic;
+package gameController;
 
 import java.util.List;
 
-import Main.Main;
-import Model.Bullet;
-import Model.BulletPassable;
-import Model.Entity;
-import Model.IRenderable;
-import Model.IRenderableHolder;
-import Model.Item;
-import Model.Player;
-import Utility.GameUtility;
-import Utility.Geometry;
-import Utility.Rectangle;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogEvent;
 import javafx.scene.control.Alert.AlertType;
+import main.Main;
+import model.Bullet;
+import model.BulletPassable;
+import model.Entity;
+import model.IRenderable;
+import model.IRenderableHolder;
+import model.Item;
+import model.Player;
+import utility.GameUtility;
+import utility.Geometry;
+import utility.Rectangle;
 
 public class GameManager {
 

@@ -1,6 +1,6 @@
-package Logic;
+package gameController;
 
-import Model.Item;
+import model.Item;
 
 public class ItemDestroyer extends Thread{
 	

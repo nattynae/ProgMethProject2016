@@ -1,4 +1,4 @@
-package Logic;
+package gameController;
 
 import java.util.ArrayList;
 import java.util.List;

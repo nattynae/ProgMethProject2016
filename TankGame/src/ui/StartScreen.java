@@ -5,17 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import Main.Main;
-import Model.IRenderableHolder;
-import Model.Obstacle;
-import Model.Player;
-import Model.Pond;
-import Model.StrongObstacle;
-import Model.WeakObstacle;
-import Utility.TankColorUtility;
-import Utility.GameUtility;
-import Utility.ImageUtility;
-import Utility.NameFormatException;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -32,6 +21,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import main.Main;
+import model.IRenderableHolder;
+import model.Obstacle;
+import model.Player;
+import model.Pond;
+import model.StrongObstacle;
+import model.WeakObstacle;
+import utility.GameUtility;
+import utility.ImageUtility;
+import utility.NameFormatException;
+import utility.TankColorUtility;
 
 public class StartScreen extends StackPane {
 	private Button startButton, body1, body2, body3, body4, gun1, gun2, gun3, gun4;

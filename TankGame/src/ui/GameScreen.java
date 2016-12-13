@@ -5,15 +5,7 @@ import java.util.List;
 import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
 
-import Logic.GameManager;
-import Model.Bullet;
-import Model.Entity;
-import Model.IRenderable;
-import Model.IRenderableHolder;
-import Model.Player;
-import Utility.GameUtility;
-import Utility.ImageUtility;
-import Utility.InputUtility;
+import gameController.GameManager;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -24,6 +16,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import model.Bullet;
+import model.Entity;
+import model.IRenderable;
+import model.IRenderableHolder;
+import model.Player;
+import utility.GameUtility;
+import utility.ImageUtility;
+import utility.InputUtility;
 
 public class GameScreen extends StackPane {
 

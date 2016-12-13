@@ -1,18 +1,18 @@
-package Logic;
+package gameController;
 
 import java.util.List;
 
-import Model.ATKItem;
-import Model.ATKSpeedItem;
-import Model.BulletItem;
-import Model.Entity;
-import Model.HPItem;
-import Model.IRenderable;
-import Model.IRenderableHolder;
-import Model.Item;
-import Model.SpeedItem;
-import Utility.GameUtility;
-import Utility.RandomUtility;
+import model.ATKItem;
+import model.ATKSpeedItem;
+import model.BulletItem;
+import model.Entity;
+import model.HPItem;
+import model.IRenderable;
+import model.IRenderableHolder;
+import model.Item;
+import model.SpeedItem;
+import utility.GameUtility;
+import utility.RandomUtility;
 
 public class ItemProducer implements Runnable {
 
