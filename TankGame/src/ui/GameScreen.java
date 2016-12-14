@@ -286,13 +286,7 @@ public class GameScreen extends StackPane {
 	}
 
 	private void paintUI(GraphicsContext gc) {
-		gc.setFill(Color.CHARTREUSE);
-		gc.fillRect(0, 0, GameUtility.GAMESCREEN_WIDTH, startDrawingY);
-		gc.fillRect(0, startDrawingY, startDrawingX2, frameHeight);
-		gc.fillRect(startDrawingX2 + frameWidth, startDrawingY, centerHgap, frameHeight);
-		gc.fillRect(GameUtility.GAMESCREEN_WIDTH - startDrawingX2, startDrawingY, startDrawingX2, frameHeight);
-		gc.fillRect(0, startDrawingY + frameHeight, GameUtility.GAMESCREEN_WIDTH,
-				GameUtility.GAMESCREEN_HEIGHT - frameHeight - startDrawingY);
+		gc.drawImage(ImageUtility.getGameScreenBackgroundImage(), 0, 0);
 	}
 
 	private void paintStatus(GraphicsContext gc) {

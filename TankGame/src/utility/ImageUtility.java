@@ -8,12 +8,13 @@ package utility;
 import javafx.scene.image.Image;
 
 public class ImageUtility {
-	private static Image background, gameBackground;
+	private static Image background, gameBackground, gameScreenBackground;
 	private static Image ATKSpeedIcon, ATKIcon, speedIcon, bulletIcon, HPIcon;
 	private static Image waterIcon, rockIcon, brickIcon;
 
 	// call this method first to load all images in a program
 	public static void loadImages() {
+		gameScreenBackground = new Image(ClassLoader.getSystemResource("gameScreenBackground.png").toString());
 		background = new Image(ClassLoader.getSystemResource("bg.png").toString());
 		gameBackground = new Image(ClassLoader.getSystemResource("gameBG.png").toString());
 		ATKSpeedIcon = new Image(ClassLoader.getSystemResource("ATKspeed.png").toString());
@@ -24,6 +25,9 @@ public class ImageUtility {
 		waterIcon = new Image(ClassLoader.getSystemResource("waterIcon.png").toString());
 		rockIcon = new Image(ClassLoader.getSystemResource("rockIcon.png").toString());
 		brickIcon = new Image(ClassLoader.getSystemResource("brickIcon.png").toString());
+	}
+	public static Image getGameScreenBackgroundImage() {
+		return gameScreenBackground;
 	}
 
 	public static Image getBackgroundImage() {
