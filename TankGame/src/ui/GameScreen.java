@@ -1,3 +1,8 @@
+/**
+* @author Pornkrit Watcharasatianphan and Phanu Vajanopath
+* @version 14 Dec 2016
+* Project (1/2016) in 2110215 Prog Meth
+*/
 package ui;
 
 import java.util.List;
@@ -5,7 +10,7 @@ import java.util.List;
 import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
 
-import gameController.GameManager;
+import game.GameManager;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -161,10 +166,10 @@ public class GameScreen extends StackPane {
 				GameUtility.setWinner("");
 				GameManager.endGame(GameUtility.getWinner() + "DRAW");
 			} else if (player1.isDestroyed()) {
-				GameUtility.setWinner(player2.getName());
+				GameUtility.setWinner(player2.toString());
 				GameManager.endGame(GameUtility.getWinner() + " WINS");
 			} else if (player2.isDestroyed()) {
-				GameUtility.setWinner(player1.getName());
+				GameUtility.setWinner(player1.toString());
 				GameManager.endGame(GameUtility.getWinner() + " WINS");
 			}
 		});
@@ -303,8 +308,8 @@ public class GameScreen extends StackPane {
 		// paint name
 		gc.setFont(font);
 		gc.setFill(Color.BLACK);
-		gc.fillText(player2.getName(), statusNameX, statusNameY);
-		gc.fillText(player1.getName(), statusNameX + frameWidth + centerHgap, statusNameY);
+		gc.fillText(player2.toString(), statusNameX, statusNameY);
+		gc.fillText(player1.toString(), statusNameX + frameWidth + centerHgap, statusNameY);
 
 		// paint status
 		gc.setFont(font_little);
